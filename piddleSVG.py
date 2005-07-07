@@ -236,19 +236,24 @@ class SVGCanvas( Canvas ):
     self._initOutput()
 
   def flush(self):
-    self.save('svg')
+    pass
     
-  def save(self, type=''):
+  def save(self, file=None, type='svg'):
+    if file:
+      self.name = file
     if type == '':
       if '.' not in self.name:
         raise TypeError, 'no file type given to save()'
       filename = self.name
     else:
-      filename = self.name + '.' + type
+      if '.' not in self.name:
+        filename = self.name + '.' + type
+      else:
+        filename = self.name
     outFile = open(filename,'w+')
     outFile.write(self._txt+'</svg>')
     outFile.close()
-    print filename, "saved"
+    #print filename, "saved"
 
 
   #------------- drawing methods --------------

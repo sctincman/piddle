@@ -1,3 +1,4 @@
+# -*- coding: iso-8859-1 -*-
 # pdfgeom.py
 """
 This module includes any mathematical methods needed for PIDDLE.
@@ -10,7 +11,7 @@ So far, just Robert Kern's bezierArc.
 from math import sin, cos, pi, ceil
 
 def bezierArc(x1,y1, x2,y2, startAng=0, extent=90):
-    """bezierArc(x1,y1, x2,y2, startAng=0, extent=90) --> List of BÈzier
+    """bezierArc(x1,y1, x2,y2, startAng=0, extent=90) --> List of Bezier
 curve control points.
 
 (x1, y1) and (x2, y2) are the corners of the enclosing rectangle.  The

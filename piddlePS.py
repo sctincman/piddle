@@ -200,6 +200,7 @@ class PSCanvas(Canvas):
        r,g,b = c.red, c.green, c.blue
        
        w = self._currentWidth = self.defaultLineWidth
+       self.setLineCap( 0) # sets butt as default cap style
 
        self.defaultFont = Font(face='serif') 
        self.fontMapEncoding = fontMapEncoding
@@ -504,6 +505,15 @@ translate
        if width != self._currentWidth:
           self._currentWidth = width
           self.code.append('%s setlinewidth' % width)
+
+
+##     def _updateLineCap(self, cap):
+##        """0 is butt, 1 is round, 2 is projecting"""
+##        assert cap in (0,1,2), "The lineCap is allowed to be only one of 0,1,2"  
+##        if cap == None: cap = self.defaultLineCap
+##        if cap != self._currentCap:
+##           self._currentCap = cap
+##           self.code.append('%s setlinecap' % cap)
           
 
     def _updateFont(self, font):
@@ -515,18 +525,23 @@ translate
           self.code.append('(%s) findfont %s scalefont setfont' % (f, s))
 
 
+    def setLineCap( self, cap):
+       assert cap in (0,1,2), "The lineCap is allowed to be only one of 0,1,2"          
+       self._currentCap = cap
+
+
     def drawLine(self, x1, y1, x2, y2, color=None, width=None):
        self._updateLineColor(color)
        self._updateLineWidth(width)
        if self._currentColor != transparent:
-          self.code.append('%s %s neg moveto %s %s neg lineto stroke' %
-                           (x1, y1, x2, y2))
+          self.code.append('%d setlinecap %s %s neg moveto %s %s neg lineto stroke' %
+                           (self._currentCap, x1, y1, x2, y2))
 
 
     def drawLines(self, lineList, color=None, width=None):
        self._updateLineColor(color)
        self._updateLineWidth(width)
-       codeline = '%s %s neg moveto %s %s neg lineto stroke'
+       codeline = ('%d setlinecap' % self._currentCap) + '%s %s neg moveto %s %s neg lineto stroke'
        if self._currentColor != transparent:
           for line in lineList:
              self.code.append(codeline % line)
