@@ -48,7 +48,8 @@ font_face_map = {
             'serif':'times',
             'sansserif':'helvetica',
             'monospaced':'courier',
-            'arial':'helvetica'
+            'arial':'helvetica',
+            'times new roman': 'times'
             }
 
 #maps a piddle font to a postscript one.
