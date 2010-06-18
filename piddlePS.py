@@ -866,7 +866,7 @@ translate
        # piddlePDF again
 
        rawimage = myimage.tostring()
-       assert(len(rawimage) == imgwidth*imgheight, 'Wrong amount of data for image') 
+       assert len(rawimage) == imgwidth*imgheight, 'Wrong amount of data for image'
        #compressed = zlib.compress(rawimage) # no zlib at moment
        hex_encoded = self._AsciiHexEncode(rawimage)
        
@@ -957,7 +957,7 @@ translate
                           'image'])
         # after image operator just need to dump image dat to file as hexstring
         rawimage = myimage.tostring()
-        assert(len(rawimage) == imwidth*imheight, 'Wrong amount of data for image') 
+        assert len(rawimage) == imwidth*imheight, 'Wrong amount of data for image'
         #compressed = zlib.compress(rawimage) # no zlib at moment
         hex_encoded = self._AsciiHexEncode(rawimage)
        
