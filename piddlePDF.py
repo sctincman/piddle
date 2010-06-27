@@ -184,7 +184,7 @@ class PDFCanvas(Canvas):
             
         if hasattr(file, 'write'):
             self.pdf.save(fileobj=file)
-        elif isinstance(file, types.StringType):
+        elif isinstance(file, types.StringType) or isinstance(file, types.UnicodeType):
             self.pdf.save(filename=file)
         else:
             self.pdf.save()

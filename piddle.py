@@ -96,7 +96,7 @@ __version_maj_number__ = 1.0
 __version_min_number__ = 15  
 __version__ = "%s.%s" % ( __version_maj_number__,  __version_min_number__) # c.f. "1.0.15"
 
-from types import StringType, IntType, InstanceType
+from types import StringType, UnicodeType, IntType, InstanceType
 import string
 
 inch = 72		# 1 PIDDLE drawing unit == 1/72 imperial inch
@@ -743,7 +743,7 @@ def getFileObject(file):
         or a potential file object and assures that a valid fileobj is returned"""
 
         if file:
-                if isinstance(file, StringType):
+                if isinstance(file, StringType) or isinstance(file, UnicodeType):
                         fileobj = open(file, "wb")
                 else:
                         if hasattr(file, "write"):
