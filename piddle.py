@@ -749,9 +749,9 @@ def getFileObject(file):
                         if hasattr(file, "write"):
                                 fileobj = file
                         else:
-                                raise 'Invalid file argument to save'
+                                raise Exception('Invalid file argument to save')
         else:
-                raise 'Invalid file argument to save'
+                raise Exception('Invalid file argument to save')
         
         return fileobj
 

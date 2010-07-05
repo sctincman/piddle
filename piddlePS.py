@@ -190,7 +190,7 @@ class PSCanvas(Canvas):
        elif PostScriptLevel == 2 :
            self.drawImage = self._drawImageLevel2
        else :
-           raise 'PostScriptLevelException'
+           raise Exception('PostScriptLevelException')
 
 
        self.code = []

@@ -707,7 +707,7 @@ class Canvas:
 		    image.seek(2, 1)		#skip segment length
 		    x = struct.unpack('B', image.read(1)) #data precision
 		    if x[0] != 8:
-			raise 'PDFError', ' JPEG must have 8 bits per component'
+			raise Exception('PDFError', ' JPEG must have 8 bits per component')
 		    y = struct.unpack('BB', image.read(2))
 		    height = (y[0] << 8) + y[1] 
 		    y = struct.unpack('BB', image.read(2))
@@ -717,7 +717,7 @@ class Canvas:
 		    return width, height, color
 		    done = 1
 		elif x[0] in unsupportedMarkers:
-		    raise 'PDFError', ' Unsupported JPEG marker: %0.2x' % x[0]
+		    raise Exception('PDFError', ' Unsupported JPEG marker: %0.2x' % x[0])
 		elif x[0] not in noParamMarkers:
 		    #skip segments with parameters
 		    #read length and skip the data
@@ -764,17 +764,17 @@ class Canvas:
         if direction in [0,90,180,270]:
             direction_arg = '/Di /%d' % direction
         else:
-            raise 'PDFError', ' directions allowed are 0,90,180,270'
+            raise Exception('PDFError', ' directions allowed are 0,90,180,270')
         
         if dimension in ['H', 'V']:
             dimension_arg = '/Dm /%s' % dimension
         else:
-            raise'PDFError','dimension values allowed are H and V'
+            raise Exception('PDFError','dimension values allowed are H and V')
         
         if motion in ['I','O']:
             motion_arg = '/M /%s' % motion
         else:
-            raise'PDFError','motion values allowed are I and O'
+            raise Exception('PDFError','motion values allowed are I and O')
 
 
         # this says which effects require which argument types from above
@@ -790,7 +790,7 @@ class Canvas:
         try:
             args = PageTransitionEffects[effectname]
         except KeyError:
-            raise 'PDFError', 'Unknown Effect Name "%s"' % effectname
+            raise Exception('PDFError', 'Unknown Effect Name "%s"' % effectname)
             self._pageTransitionString = ''
             return
         

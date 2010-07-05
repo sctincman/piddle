@@ -56,7 +56,7 @@ class PiddleWxDc(piddle.Canvas):
           if default_color is not None:
             return self._getWXbrush(default_color)
           else:
-            raise "WXcanvas error:  Cannot create brush."
+            raise Exception("WXcanvas error:  Cannot create brush.")
 
         return wxBrush(wxcolor)
 
@@ -75,7 +75,7 @@ class PiddleWxDc(piddle.Canvas):
           if default_color is not None:
             return self._getWXpen(width, default_color)
           else:
-            raise "WXcanvas error:  Cannot create pen."
+            raise Exception("WXcanvas error:  Cannot create pen.")
 
         return wxPen(wxcolor, width)
 
@@ -264,7 +264,7 @@ class PiddleWxDc(piddle.Canvas):
             try:
                 import Image
             except ImportError:
-                raise "PIL not available!"
+                raise Exception("PIL not available!")
 
         if (x2 and y2 and x2>x1 and y2>y1):
             imgPil = image.resize((x2-x1,y2-y1))

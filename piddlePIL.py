@@ -344,7 +344,7 @@ class PILCanvas( Canvas ):
         temppen = ImageDraw.ImageDraw(tempimg)
         temppen.setink( (255,255,255) )
         pilfont = _pilFont(font)
-        if not pilfont: raise "bad font!", font
+        if not pilfont: raise Exception("bad font!", font)
         temppen.setfont( pilfont )
         pos = [4, int(tempsize/2 - self.fontAscent(font)) - self.fontDescent(font)]
         temppen.text( pos, s )

@@ -93,7 +93,7 @@ class PixMapWrapper:
 
 	def __setattr__(self, attr, val):
 		if attr == 'baseAddr':
-			raise 'UseErr', "don't assign to .baseAddr -- assign to .data instead"
+			raise Exception('UseErr', "don't assign to .baseAddr -- assign to .data instead")
 		elif attr == 'data':
 			self.__dict__['data'] = val
 			self._stuff('baseAddr', id(self.data) + MacOS.string_id_to_buffer)
@@ -186,7 +186,7 @@ class PixMapWrapper:
 		# so convert if necessary
 		if format != imgformat.macrgb and format != imgformat.macrgb16:
 			# (LATER!)
-			raise "NotImplementedError", "conversion to macrgb or macrgb16"
+			raise NotImplementedError("conversion to macrgb or macrgb16")
 		self.data = s
 		self.bounds = (0,0,width,height)
 		self.cmpCount = 3
@@ -207,7 +207,7 @@ class PixMapWrapper:
 			return self.data
 		# otherwise, convert to the requested format
 		# (LATER!)
-			raise "NotImplementedError", "data format conversion"
+			raise NotImplementedError("data format conversion")
 
 	def fromImage(self,im):
 		"""Initialize this PixMap from a PIL Image object."""
