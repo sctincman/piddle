@@ -157,7 +157,7 @@ class PILCanvas( Canvas ):
                 # below here, file is guaranteed to be a string
         if format == None:
             if '.' not in file:
-                raise TypeError, 'no file type given to save()'
+                raise TypeError('no file type given to save()')
             filename = file
         else:
             filename = file + '.' + format
