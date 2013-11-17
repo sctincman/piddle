@@ -498,7 +498,6 @@ gsave annotatepage grestore showpage
     def printAI(self):
         "prints it to standard output.  Logs positions for doing trailer"
 #        print("%AI-1.0")
-#        print("%’“¦²")
         i = 1
         self.xref = []
 #        print(self.objects)
