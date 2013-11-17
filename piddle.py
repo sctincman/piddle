@@ -96,7 +96,7 @@ __version_maj_number__ = 1.0
 __version_min_number__ = 15
 __version__ = "%s.%s" % ( __version_maj_number__,  __version_min_number__) # c.f. "1.0.15"
 
-from types import StringType, UnicodeType, IntType, InstanceType
+import sys
 import string
 
 inch = 72        # 1 PIDDLE drawing unit == 1/72 imperial inch
@@ -179,11 +179,17 @@ class Color:
         if dsum < 0: return -1
         return 0
 
+def myisstring(obj):
+    if sys.version_info[0] > 2:
+        return isinstance(obj, str)
+    else:
+        return isinstance(obj, basestring)
+
 def HexColor(val):
     """This class converts a hex string, or an actual integer number,
     into the corresponding color.  E.g., in "AABBCC" or 0xAABBCC,
     AA is the red, BB is the green, and CC is the blue (00-FF)."""
-    if type(val) == StringType:
+    if myisstring(val):
         val = string.atoi(val,16)
     factor = 1.0 / 255
     return Color(factor * ((val >> 16) & 0xFF),
@@ -743,7 +749,9 @@ def getFileObject(file):
     or a potential file object and assures that a valid fileobj is returned"""
 
     if file:
-                if isinstance(file, StringType) or isinstance(file, UnicodeType):
+        if sys.version_info[0] > 2:
+            unicode = str
+        if myisstr(file) or isinstance(file, unicode):
             fileobj = open(file, "wb")
         else:
             if hasattr(file, "write"):
