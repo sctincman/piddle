@@ -1,3 +1,5 @@
+from __future__ import print_function
+
 from types import *
 from piddle import *
 
@@ -11,11 +13,11 @@ def checkMethods(parentMethod, childMethod):
 
     # make sure they match, at least as far as the parent's go
     if len(cargs) < len(pargs):
-        print "too few args"
+        print("too few args")
         return 0
     for i in range(len(pargs)):
         if pargs[i] != cargs[i]:
-            print "arg names don't match"
+            print("arg names don't match")
             return 0
 
     # if child has any additional arguments, make sure
@@ -23,9 +25,9 @@ def checkMethods(parentMethod, childMethod):
     extras = len(cargs) - len(pargs)
     defs = childMethod.func_defaults
     if extras and (defs is None or len(defs) < extras):
-        print "need %s defaults, got %s" % (extras, defs)
-        print cargs
-        print pargs
+        print("need %s defaults, got %s" % (extras, defs))
+        print(cargs)
+        print(pargs)
         return 0
 
     # otherwise, it's OK
@@ -39,19 +41,19 @@ def checkClasses(parent, child):
     for name in childDir:
         item = getattr(child, name)
         if type(item) != MethodType or name[0] == '_':
-            pass  # print "     %s is not a public method" % name
+            pass  # print("     %s is not a public method" % name)
         elif name in parentDir:
             if not checkMethods(getattr(parent, name).im_func, item.im_func):
-                print "NAUGHTY CHILD disobeys arguments to", name
+                print("NAUGHTY CHILD disobeys arguments to", name)
             else:
-                print "     %s looks OK" % name
+                print("     %s looks OK" % name)
         else:
-            print "     %s is unique to the child" % name
+            print("     %s is unique to the child" % name)
 
 foo = raw_input("backend to check (e.g., PDF):")
 if foo:
     canvasname = foo+"Canvas"
     module = __import__("piddle"+foo, globals(), locals(), [canvasname] )
     child = getattr(module, canvasname)
-    print "\nChecking %s...\n" % canvasname
+    print("\nChecking %s...\n" % canvasname)
     checkClasses( Canvas, child )
