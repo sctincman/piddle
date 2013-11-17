@@ -425,7 +425,7 @@ class AICanvas(Canvas):
             sl.append('l')
 #            print sl
 #            print sk
-            if i <> 0:
+            if i != 0:
                 self.code.append(tuple(sl))
             self.code.append(tuple(sk))
 
