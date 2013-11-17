@@ -168,7 +168,7 @@ def psStringWidth(text, font, encoding):
     try:
         widths = _psWidths[encoding][string.lower(font) ]
     except:
-        raise KeyError, "Improper encoding %s or font name %s" % (encoding, font)
+        raise KeyError("Improper encoding %s or font name %s" % (encoding, font))
     w = 0
     for char in text:
         w = w + widths[ord(char)]
