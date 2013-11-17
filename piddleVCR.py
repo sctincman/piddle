@@ -44,6 +44,8 @@ STATUS: Working, but still contains some debugging code.
 Joe Strout (joe@strout.net), 10/21/99.
 """
 
+from __future__ import print_function
+
 VERSION = 0.1
 
 from piddle import *
@@ -79,7 +81,7 @@ class VCRCanvas( Canvas ):
     # private functions
     def _record(self,s):
         self.recording.append(s)
-        # print s  # debugging function
+        # print(s) # debugging function
 
     def _recordfunc(self,func,*args):
         prototype = func + "(" + ("%s," * len(args))[:-1] + ")"
@@ -223,17 +225,17 @@ class VCRCanvas( Canvas ):
         self._recordfunc("drawFigure", partList, edgeColor,edgeWidth,fillColor,closed)
 
     def drawImage(self, image, x1,y1, x2=None,y2=None):
-        print "Warning!!! piddleVCR does not implent drawImage"
+        print("Warning!!! piddleVCR does not implent drawImage")
         # These are thoughts on how to implement this using a shelf to store image
         # it kept everyting contained in one file
 #          import shelve
 #          imageKeyName = `image`
-#          print imageKeyName
+#          print(imageKeyName)
 
 #          if hasattr(self, 'shelf'):
-#              print "has shelf"
+#              print("has shelf")
 #          else:
-#              print "creating shelf"
+#              print("creating shelf")
 #              self.shelfName = self.name + ".vcr.shelf"
 #              self.shelf = shelve.open(self.shelfName)
 #              # now let the vcr file know we have this shelf
