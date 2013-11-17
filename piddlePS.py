@@ -606,7 +606,7 @@ translate
                self.code.extend([
                   'gsave',
                   '%s %s neg translate' % (x,y),
-                  `angle`+' rotate'])
+                  repr(angle) + ' rotate'])
                down = 0
                for line in lines :
                   self._drawStringOneLine(line, 0, 0+down, font, color, angle)
