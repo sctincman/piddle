@@ -363,7 +363,7 @@ class FIGCanvas(Canvas):
 
     def clear(self):
         """Reset canvas to its default state."""
-        raise NotImplementedError, "clear"
+        raise NotImplementedError("clear")
 
     def save(self, file=None, format=None):
         """Write the current document to a file or stream and close the file.
