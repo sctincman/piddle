@@ -1,5 +1,5 @@
 #aigen.py
-""" 
+"""
 This is a library to generate AI files containing text and graphics.  It is
 part of the Adobe Illustrator format backend for PIDDLE foundation for a
 complete Reporting solution in Python.
@@ -18,25 +18,25 @@ from types import *
 
 ##############################################################
 #
-#			Constants and declarations
+#            Constants and declarations
 #
 ##############################################################
 
 
 
 StandardEnglishFonts = [
-	'Courier', 'Courier-Bold', 'Courier-Oblique', 'Courier-BoldOblique',  
-	'Helvetica', 'Helvetica-Bold', 'Helvetica-Oblique', 
-	'Helvetica-BoldOblique',
-	'Times-Roman', 'Times-Bold', 'Times-Italic', 'Times-BoldItalic',
-	'Symbol','ZapfDingbats']
+    'Courier', 'Courier-Bold', 'Courier-Oblique', 'Courier-BoldOblique',
+    'Helvetica', 'Helvetica-Bold', 'Helvetica-Oblique',
+    'Helvetica-BoldOblique',
+    'Times-Roman', 'Times-Bold', 'Times-Italic', 'Times-BoldItalic',
+    'Symbol','ZapfDingbats']
 
 AIError = 'AIError'
 AFMDIR = '.'
 
 ##############################################################
 #
-#			AI Metrics
+#            AI Metrics
 # This is a preamble to give us a stringWidth function.
 # loads and caches AFM files, but won't need to as the
 # standard fonts are there already
@@ -299,78 +299,78 @@ ascent_descent = {'Courier': (629, -157),
 
 
 def parseAFMfile(filename):
-	"""Returns an array holding the widths of all characters in the font.
-	Ultra-crude parser"""
-	alllines = open(filename, 'r').readlines()
-	# get stuff between StartCharMetrics and EndCharMetrics
-	metriclines = []
-	between = 0
-	for line in alllines:
-		if string.find(string.lower(line), 'endcharmetrics') > -1:
-			between = 0
-			break
-		if between:
-			metriclines.append(line)
-		if string.find(string.lower(line), 'startcharmetrics') > -1:
-			between = 1
-			
-	# break up - very shaky assumption about array size
-	widths = [0] * 255
-	
-	for line in metriclines:
-		chunks = string.split(line, ';')
-		
-		(c, cid) = string.split(chunks[0])
-		(wx, width) = string.split(chunks[1])
-		#(n, name) = string.split(chunks[2])
-		#(b, x1, y1, x2, y2) = string.split(chunks[3])
-		widths[string.atoi(cid)] = string.atoi(width)
-	
-	# by default, any empties should get the width of a space
-	for i in range(len(widths)):
-		if widths[i] == 0:
-			widths[i] == widths[32]
+    """Returns an array holding the widths of all characters in the font.
+    Ultra-crude parser"""
+    alllines = open(filename, 'r').readlines()
+    # get stuff between StartCharMetrics and EndCharMetrics
+    metriclines = []
+    between = 0
+    for line in alllines:
+        if string.find(string.lower(line), 'endcharmetrics') > -1:
+            between = 0
+            break
+        if between:
+            metriclines.append(line)
+        if string.find(string.lower(line), 'startcharmetrics') > -1:
+            between = 1
 
-	return widths
+    # break up - very shaky assumption about array size
+    widths = [0] * 255
+
+    for line in metriclines:
+        chunks = string.split(line, ';')
+
+        (c, cid) = string.split(chunks[0])
+        (wx, width) = string.split(chunks[1])
+        #(n, name) = string.split(chunks[2])
+        #(b, x1, y1, x2, y2) = string.split(chunks[3])
+        widths[string.atoi(cid)] = string.atoi(width)
+
+    # by default, any empties should get the width of a space
+    for i in range(len(widths)):
+        if widths[i] == 0:
+            widths[i] == widths[32]
+
+    return widths
 
 
 class FontCache:
-	"""Loads and caches font width information on demand.  Font names
-	converted to lower case for indexing.  Public interface is stringwidth"""
-	def __init__(self):
-		global widths
-		self.__widtharrays = widths
+    """Loads and caches font width information on demand.  Font names
+    converted to lower case for indexing.  Public interface is stringwidth"""
+    def __init__(self):
+        global widths
+        self.__widtharrays = widths
 
-		
-	def loadfont(self, fontname):
-		filename = AFMDIR + os.sep + fontname + '.afm'
-		print 'cache loading',filename
-		assert os.path.exists(filename)
-		widths = parseAFMfile(filename)
-		self.__widtharrays[fontname] = widths
-	def getfont(self, fontname):
-		try:
-			return self.__widtharrays[fontname]
-		except:
-			try:
-				self.loadfont(fontname)
-				return self.__widtharrays[fontname]
-			except:
-				# font not found, use Courier
-				print 'Font',fontname,'not found - using Courier for widths'
-				return self.getfont('courier')
-	
 
-	def stringwidth(self, text, font):
-		widths = self.getfont(string.lower(font))
-		w = 0
-		for char in text:
-			w = w + widths[ord(char)]
-		return w
-	def status(self):
-		#returns loaded fonts
-		return self.__widtharrays.keys()
-		
+    def loadfont(self, fontname):
+        filename = AFMDIR + os.sep + fontname + '.afm'
+        print 'cache loading',filename
+        assert os.path.exists(filename)
+        widths = parseAFMfile(filename)
+        self.__widtharrays[fontname] = widths
+    def getfont(self, fontname):
+        try:
+            return self.__widtharrays[fontname]
+        except:
+            try:
+                self.loadfont(fontname)
+                return self.__widtharrays[fontname]
+            except:
+                # font not found, use Courier
+                print 'Font',fontname,'not found - using Courier for widths'
+                return self.getfont('courier')
+
+
+    def stringwidth(self, text, font):
+        widths = self.getfont(string.lower(font))
+        w = 0
+        for char in text:
+            w = w + widths[ord(char)]
+        return w
+    def status(self):
+        #returns loaded fonts
+        return self.__widtharrays.keys()
+
 TheFontCache = FontCache()
 
 stringwidth = TheFontCache.stringwidth
@@ -378,435 +378,435 @@ stringwidth = TheFontCache.stringwidth
 
 ##############################################################
 #
-#			AI Document
+#            AI Document
 #
 ##############################################################
 
 
 class AIDocument:
-	def __init__(self):
-		self.objects = []
-		self.info = AIHeader()  #hang onto it!
-		self.add(self.info)
-		self.transforms = AIStream()
-		
-		self.pages = []
-		self.pagepositions = []
-		self.infopos = 19
-		
-		# position 1
-#		cat = AICatalog()
-#		cat.RefPages = 3
-#		cat.RefOutlines = 2
-#		self.add(cat)
-	
-		# position 2 - outlines
-#		outl = AIOutline()
-#		self.add(outl)
-	
-		# position 3 - pages collection
-#		self.PageCol = AIPageCollection()
-#		self.add(self.PageCol)
-	
-		# positions 4-17 - fonts
-#		fonts = MakeType1Fonts()
-#		for font in fonts:
-#			self.add(font)
-#	
-#		self.fontdict = MakeFontDictionary(4, 15)
-		
-		# position 18 - Info
+    def __init__(self):
+        self.objects = []
+        self.info = AIHeader()  #hang onto it!
+        self.add(self.info)
+        self.transforms = AIStream()
+
+        self.pages = []
+        self.pagepositions = []
+        self.infopos = 19
+
+        # position 1
+#        cat = AICatalog()
+#        cat.RefPages = 3
+#        cat.RefOutlines = 2
+#        self.add(cat)
+
+        # position 2 - outlines
+#        outl = AIOutline()
+#        self.add(outl)
+
+        # position 3 - pages collection
+#        self.PageCol = AIPageCollection()
+#        self.add(self.PageCol)
+
+        # positions 4-17 - fonts
+#        fonts = MakeType1Fonts()
+#        for font in fonts:
+#            self.add(font)
+#
+#        self.fontdict = MakeFontDictionary(4, 15)
+
+        # position 18 - Info
 
 
-				# testing here - position 19 - an image
-		self.add(AIProlog())
-		self.add(AISetUp())
-#		self.add(AIStream())
-#		self.add(AIImage())
-		self.add(self.transforms)
+                # testing here - position 19 - an image
+        self.add(AIProlog())
+        self.add(AISetUp())
+#        self.add(AIStream())
+#        self.add(AIImage())
+        self.add(self.transforms)
 
-	def add(self, obj):
-		self.objects.append(obj)
-		obj.doc = self
+    def add(self, obj):
+        self.objects.append(obj)
+        obj.doc = self
 
-	def setTitle(self, title):
-		"embeds in AI file"
-		self.info.title = title
-		
-	def setAuthor(self, author):
-		"embedded in AI file"
-		self.info.author = author
-			
-	def setBoundingBox(self, boundingbox):
-		"embeds in AI file"
-		self.transforms.originx = 0
-		self.transforms.originy = 0
-#		self.info.boundingBox = boundingbox
-		lx,ly, ux,uy, tx = boundingbox
-		print 'setBoundingBox', lx,ly, ux,uy, tx
-		print 'setBoundingBox', ux-lx,uy-ly
-		self.info.pagesize = (ux-lx), (uy-ly)
-		##XXX If the ArtSize is smaller than Letter Freehand always draws the 
-		##XXX origin as if the Art board was Letter sized, however the arboard 
-		##XXX is drawn at the same center as a letter sized artboard.
-		##XXX hence this translation 
-		if ux-lx < 612:
-			self.transforms.originx = w = (612 - (ux-lx))/2 +tx
-			lx, ux = lx + w, ux + w
-		if uy-ly < 792:
-			self.transforms.originy = w = (792 - (uy-ly))/2 +tx
-			ly, uy = ly + w, uy + w
-#		print self.transforms
-#		print self.transforms.originx
-#		print self.transforms.originy
-		print 'setBoundingBox', lx,ly, ux,uy
-		self.info.boundingBox = lx, ly, ux, uy
-		self.transforms.height = uy
-		
-	def setPage(self, page):
-#		print 'setPage', page
-		self.transforms.data = page
-		
-			
-	def SaveToFile(self, filename):
-#		print 'SaveToFile', self.transforms.originx, self.transforms.originy
-		f = open(filename, 'w')
-		old_output = sys.stdout
-		sys.stdout = f
-		self.printAI()
-		sys.stdout = old_output
-		f.close()
-	
-	def printXref(self):
-		self.startxref = sys.stdout.tell()
-		print 'xref'
-		print 0,len(self.objects) + 1
-		print '0000000000 65535 f'
-		for pos in self.xref:
-			print '%0.10d 00000 n' % pos
-	
-	def printTrailer(self):
-		print '''%%PageTrailer
+    def setTitle(self, title):
+        "embeds in AI file"
+        self.info.title = title
+
+    def setAuthor(self, author):
+        "embedded in AI file"
+        self.info.author = author
+
+    def setBoundingBox(self, boundingbox):
+        "embeds in AI file"
+        self.transforms.originx = 0
+        self.transforms.originy = 0
+#        self.info.boundingBox = boundingbox
+        lx,ly, ux,uy, tx = boundingbox
+        print 'setBoundingBox', lx,ly, ux,uy, tx
+        print 'setBoundingBox', ux-lx,uy-ly
+        self.info.pagesize = (ux-lx), (uy-ly)
+        ##XXX If the ArtSize is smaller than Letter Freehand always draws the
+        ##XXX origin as if the Art board was Letter sized, however the arboard
+        ##XXX is drawn at the same center as a letter sized artboard.
+        ##XXX hence this translation
+        if ux-lx < 612:
+            self.transforms.originx = w = (612 - (ux-lx))/2 +tx
+            lx, ux = lx + w, ux + w
+        if uy-ly < 792:
+            self.transforms.originy = w = (792 - (uy-ly))/2 +tx
+            ly, uy = ly + w, uy + w
+#        print self.transforms
+#        print self.transforms.originx
+#        print self.transforms.originy
+        print 'setBoundingBox', lx,ly, ux,uy
+        self.info.boundingBox = lx, ly, ux, uy
+        self.transforms.height = uy
+
+    def setPage(self, page):
+#        print 'setPage', page
+        self.transforms.data = page
+
+
+    def SaveToFile(self, filename):
+#        print 'SaveToFile', self.transforms.originx, self.transforms.originy
+        f = open(filename, 'w')
+        old_output = sys.stdout
+        sys.stdout = f
+        self.printAI()
+        sys.stdout = old_output
+        f.close()
+
+    def printXref(self):
+        self.startxref = sys.stdout.tell()
+        print 'xref'
+        print 0,len(self.objects) + 1
+        print '0000000000 65535 f'
+        for pos in self.xref:
+            print '%0.10d 00000 n' % pos
+
+    def printTrailer(self):
+        print '''%%PageTrailer
 gsave annotatepage grestore showpage
 %%Trailer'''
-#		print '<< /Size %d /Root %d 0 R /Info %d 0 R>>' % (len(self.objects) + 1, 1, self.infopos)
-#		print 'startxref'
-#		print self.startxref
+#        print '<< /Size %d /Root %d 0 R /Info %d 0 R>>' % (len(self.objects) + 1, 1, self.infopos)
+#        print 'startxref'
+#        print self.startxref
 
-	def printAI(self):
-		"prints it to standard output.  Logs positions for doing trailer"
-#		print "%AI-1.0"
-#		print "%’“¦²"
-		i = 1
-		self.xref = []
-#		print self.objects
-		for obj in self.objects:
-#			print 'printAI', obj
-#			pos = sys.stdout.tell()
-#			self.xref.append(pos)
-#			print i, '0 obj'
-			obj.printAI()
-#			print 'endobj'
-#			i = i + 1
-#		self.printXref()
-		self.printTrailer()
-		print "%%EOF",
+    def printAI(self):
+        "prints it to standard output.  Logs positions for doing trailer"
+#        print "%AI-1.0"
+#        print "%’“¦²"
+        i = 1
+        self.xref = []
+#        print self.objects
+        for obj in self.objects:
+#            print 'printAI', obj
+#            pos = sys.stdout.tell()
+#            self.xref.append(pos)
+#            print i, '0 obj'
+            obj.printAI()
+#            print 'endobj'
+#            i = i + 1
+#        self.printXref()
+        self.printTrailer()
+        print "%%EOF",
 
 
-	def addPage(self, page):
-		"""adds page and stream at end.  Maintains pages list"""
-		#page.buildstream()
-		pos = len(self.objects) # work out where added
-		
-#		page.ParentPos = 3   #pages collection
-#		page.info = {'parentpos':3,
-#			'fontdict':self.fontdict,
-#			'contentspos':pos + 2}
-		
-#		self.PageCol.PageList.append(pos+1) 
-#		print 'addPage', self.transforms.setStream((10, 20, 'm')) 
-#		print 'addPage', self.transforms.setStream(page) 
-#		self.page = 
-		self.transforms.data = page
-#		print 'addPage', self.page
-#		self.objects.append(page)
-#		self.objects.append(self.page)
+    def addPage(self, page):
+        """adds page and stream at end.  Maintains pages list"""
+        #page.buildstream()
+        pos = len(self.objects) # work out where added
+
+#        page.ParentPos = 3   #pages collection
+#        page.info = {'parentpos':3,
+#            'fontdict':self.fontdict,
+#            'contentspos':pos + 2}
+
+#        self.PageCol.PageList.append(pos+1)
+#        print 'addPage', self.transforms.setStream((10, 20, 'm'))
+#        print 'addPage', self.transforms.setStream(page)
+#        self.page =
+        self.transforms.data = page
+#        print 'addPage', self.page
+#        self.objects.append(page)
+#        self.objects.append(self.page)
 
 
 
 ##############################################################
 #
-#			Utilities
+#            Utilities
 #
 ##############################################################
 
 class OutputGrabber:
-	"""At times we need to put something in the place of standard
-	output.  This grabs stdout, keeps the data, and releases stdout
-	when done.
-	
-	NOT working well enough!"""
-	def __init__(self):
-		self.oldoutput = sys.stdout
-		sys.stdout = self
-		self.closed = 0
-		self.data = []
-	def write(self, x):
-		if not self.closed:
-			self.data.append(x)
-	
-	def getData(self):
-		return string.join(self.data)
+    """At times we need to put something in the place of standard
+    output.  This grabs stdout, keeps the data, and releases stdout
+    when done.
 
-	def close(self):
-		sys.stdout = self.oldoutput
-		self.closed = 1
-		
-	def __del__(self):
-		if not self.closed:
-			self.close()
-	
-				
+    NOT working well enough!"""
+    def __init__(self):
+        self.oldoutput = sys.stdout
+        sys.stdout = self
+        self.closed = 0
+        self.data = []
+    def write(self, x):
+        if not self.closed:
+            self.data.append(x)
+
+    def getData(self):
+        return string.join(self.data)
+
+    def close(self):
+        sys.stdout = self.oldoutput
+        self.closed = 1
+
+    def __del__(self):
+        if not self.closed:
+            self.close()
+
+
 def testOutputGrabber():
-	gr = OutputGrabber()
-	for i in range(10):
-		print 'line',i
-	data = gr.getData()
-	gr.close()
-	print 'Data...',data
-	
+    gr = OutputGrabber()
+    for i in range(10):
+        print 'line',i
+    data = gr.getData()
+    gr.close()
+    print 'Data...',data
+
 
 ##############################################################
 #
-#			AI Object Hierarchy
+#            AI Object Hierarchy
 #
 ##############################################################
 
 
 
 class AIObject:
-	"Base class for all AI objects"
-	def printAI(self):
-		print '% base AI object'
-	
-		
+    "Base class for all AI objects"
+    def printAI(self):
+        print '% base AI object'
+
+
 class AILiteral(AIObject):
-	" a ready-made one you wish to quote"
-	def __init__(self, text):
-		self.text = text
-	def printAI(self):
-		print self.text
+    " a ready-made one you wish to quote"
+    def __init__(self, text):
+        self.text = text
+    def printAI(self):
+        print self.text
 
 
 
 class AICatalog(AIObject):
-	"requires RefPages and RefOutlines set"
-	def __init__(self):
-		self.template = '''<<
+    "requires RefPages and RefOutlines set"
+    def __init__(self):
+        self.template = '''<<
 /Type /Catalog
 /Pages %d 0 R
 /Outlines %d 0 R
 >>'''
-	def printAI(self):
-		print self.template % (self.RefPages, self.RefOutlines)
+    def printAI(self):
+        print self.template % (self.RefPages, self.RefOutlines)
 
 class AIHeader(AIObject):
-	# no features implemented yet
-	def __init__(self):
-		self.title = "untitled"
-		self.author = "anonymous"
-		self.boundingBox = (0, 0, 565, 842)
-		self.pagesize = (565, 842)
-		self.rulerUnits	= 2	
-		now = time.localtime(time.time())
-		self.datestr = time.strftime("%x %I:%M %p", now)
-				
-	def printAI(self):
-		print "%!PS-Adobe-3.0"
-		print "%%Creator: PIDDLE Adobe Illustrator backend"
-		print "%%Title: " +'(%s)' % self.title
-		print "%%For: " +'(%s)' % self.author
-		print "%%CreationDate: " +'(%s)' % self.datestr
-		print "%%DocumentProcessColors: Black"""
-		print '%%BoundingBox: ' + '%s %s %s %s' % self.boundingBox
-		#%%DocumentProcessColors: Cyan Magenta Yellow
-		#%%DocumentCustomColors: (PANTONE 156 CV)
-		#%%RGBCustomColor: red green blue (customcolorname)
-		#%%DocumentFonts: CooperBlack
-		#%%+ Minion-Regular
-		#%%DocumentFiles: WrathOfRalph
-		print "%AI5_FileFormat 3"
-		print "%AI3_ColorUsage: Color"
-		print '%AI5_ArtSize: ' + '%s %s' % self.pagesize
-		print '%AI5_Templatebox: ' + '%s %s' % self.pagesize
-		#%AI7_ImageSettings: flag
-		print '%AI5_TargetResolution: 300'
-		print '%%EndComments'		
+    # no features implemented yet
+    def __init__(self):
+        self.title = "untitled"
+        self.author = "anonymous"
+        self.boundingBox = (0, 0, 565, 842)
+        self.pagesize = (565, 842)
+        self.rulerUnits = 2
+        now = time.localtime(time.time())
+        self.datestr = time.strftime("%x %I:%M %p", now)
+
+    def printAI(self):
+        print "%!PS-Adobe-3.0"
+        print "%%Creator: PIDDLE Adobe Illustrator backend"
+        print "%%Title: " +'(%s)' % self.title
+        print "%%For: " +'(%s)' % self.author
+        print "%%CreationDate: " +'(%s)' % self.datestr
+        print "%%DocumentProcessColors: Black"""
+        print '%%BoundingBox: ' + '%s %s %s %s' % self.boundingBox
+        #%%DocumentProcessColors: Cyan Magenta Yellow
+        #%%DocumentCustomColors: (PANTONE 156 CV)
+        #%%RGBCustomColor: red green blue (customcolorname)
+        #%%DocumentFonts: CooperBlack
+        #%%+ Minion-Regular
+        #%%DocumentFiles: WrathOfRalph
+        print "%AI5_FileFormat 3"
+        print "%AI3_ColorUsage: Color"
+        print '%AI5_ArtSize: ' + '%s %s' % self.pagesize
+        print '%AI5_Templatebox: ' + '%s %s' % self.pagesize
+        #%AI7_ImageSettings: flag
+        print '%AI5_TargetResolution: 300'
+        print '%%EndComments'
 
 
 class AIProlog(AIObject):
-	"null outline, does nothing yet"
-	def __init__(self):
-		self.FontList = []
-	def printAI(self):
-		print '%%BeginProlog'
-		print '%%EndProlog'
+    "null outline, does nothing yet"
+    def __init__(self):
+        self.FontList = []
+    def printAI(self):
+        print '%%BeginProlog'
+        print '%%EndProlog'
 
 class AISetUp(AIObject):
-	"null outline, does nothing yet"
-	def __init__(self):
-		self.FontList = []
-	def printAI(self):
-		print '%%BeginSetup'
-		if self.FontList:
-			pass
-		print '%%EndSetup'
-	
+    "null outline, does nothing yet"
+    def __init__(self):
+        self.FontList = []
+    def printAI(self):
+        print '%%BeginSetup'
+        if self.FontList:
+            pass
+        print '%%EndSetup'
+
 class AIPageCollection(AIObject):
-	"presumes PageList attribute set (list of integers)"
-	def __init__(self):
-		self.PageList = []
-	def printAI(self):
-		result = '<<\n/Type /Pages\n/Count %d\n/Kids [' % len(self.PageList)
-		for page in self.PageList:
-			result = result + str(page) + ' 0 R '
-		result = result + ']\n>>'
-		print result
+    "presumes PageList attribute set (list of integers)"
+    def __init__(self):
+        self.PageList = []
+    def printAI(self):
+        result = '<<\n/Type /Pages\n/Count %d\n/Kids [' % len(self.PageList)
+        for page in self.PageList:
+            result = result + str(page) + ' 0 R '
+        result = result + ']\n>>'
+        print result
 
 #class AIBody(AIObject):
-#	"""The Bastard.  Needs list of Resources etc. Use a standard one for now.
-#	It manages a AIStream object which must be added to the document's list
-#	os objects as well."""
-#	def __init__(self):
-#		self.drawables = []
-#		self.stream = AIStream()
-#		self.hasImages = 0
-#		self.template = """<<
+#    """The Bastard.  Needs list of Resources etc. Use a standard one for now.
+#    It manages a AIStream object which must be added to the document's list
+#    os objects as well."""
+#    def __init__(self):
+#        self.drawables = []
+#        self.stream = AIStream()
+#        self.hasImages = 0
+#        self.template = """<<
 #/Type /Page
 #/Parent %(parentpos)d 0 R
-#/Resources 
-#	<< 
-#	/Font %(fontdict)s
-#	/ProcSet %(procsettext)s 
-#	>>
+#/Resources
+#    <<
+#    /Font %(fontdict)s
+#    /ProcSet %(procsettext)s
+#    >>
 #/MediaBox [0 0 595 842]
 #/Contents %(contentspos)d 0 R
 #>>"""
-#	def printAI(self):
-#		# check for image support
-##		if self.hasImages:
-##			self.info['procsettext'] = '[/AI /Text /ImageC]'
-##		else:
-##			self.info['procsettext'] = '[/AI /Text]'
-##			
-##		print self.template % self.info
-#		print "AIBody.printAI(self)"
+#    def printAI(self):
+#        # check for image support
+##        if self.hasImages:
+##            self.info['procsettext'] = '[/AI /Text /ImageC]'
+##        else:
+##            self.info['procsettext'] = '[/AI /Text]'
+##
+##        print self.template % self.info
+#        print "AIBody.printAI(self)"
 #
-#	def clear(self):
-#		self.drawables = []
-#	
-#	def setStream(self, data):
-#		self.stream.setStream(data)
-#		
+#    def clear(self):
+#        self.drawables = []
 #
-#	#def add(self, drawable):
-#	#	self.drawables.append(drawable)
-#	#
-#	#def buildstream(self):
-#	#	textmode = 0
-#	#	
-#	#	oldout = sys.stdout
-#	#	fn = tempfile.mktemp()
-#	#	#f = open(fn, 'wb')  #AR 19980202
-#	#	f = open(fn, 'w')
-#	#	sys.stdout = f
-#	#	text = 0
-#	#	for obj in self.drawables:
-#	#		if obj.isText():
-#	#			if text == 0:
-#	#				print 'BT'
-#	#				text = 1
-#	#		else:
-#	#			if text == 1:
-#	#				print 'ET'
-#	#				text = 0
-#	#				
-#	#		obj.printAI()
-#	#	if self.drawables[-1].isText():
-#	#		print 'ET'
-#	#	sys.stdout = oldout
-#	#	f.close()
-#	#		
-#	#	self.stream = AIStream()
-#	#	#self.stream.data = open(fn,'r').read()
-#	#	self.stream.data = open(fn,'rb').read()	#AR 19980202
+#    def setStream(self, data):
+#        self.stream.setStream(data)
 #
-#		
-#		
-#		
+#
+#    #def add(self, drawable):
+#    #    self.drawables.append(drawable)
+#    #
+#    #def buildstream(self):
+#    #    textmode = 0
+#    #
+#    #    oldout = sys.stdout
+#    #    fn = tempfile.mktemp()
+#    #    #f = open(fn, 'wb')  #AR 19980202
+#    #    f = open(fn, 'w')
+#    #    sys.stdout = f
+#    #    text = 0
+#    #    for obj in self.drawables:
+#    #        if obj.isText():
+#    #            if text == 0:
+#    #                print 'BT'
+#    #                text = 1
+#    #        else:
+#    #            if text == 1:
+#    #                print 'ET'
+#    #                text = 0
+#    #
+#    #        obj.printAI()
+#    #    if self.drawables[-1].isText():
+#    #        print 'ET'
+#    #    sys.stdout = oldout
+#    #    f.close()
+#    #
+#    #    self.stream = AIStream()
+#    #    #self.stream.data = open(fn,'r').read()
+#    #    self.stream.data = open(fn,'rb').read() #AR 19980202
+#
+#
+#
+#
 TestStream = ['q', (72, 720, 'l'), 'S', 'Q', (80, 672, 'm'), (24, 'TL'),
 (('Test Page with no stream'), 'Tj', 'T*')]
 
 
 class AIStream(AIObject):
-	"Used for the contents of a page"
-	def __init__(self):
-		self.data = []
-		self.originx = 0
-		self.originy = 0
-		self.height = 0
-	
-#	def setStream(self, data):
-#		self.data = data
-#		print 'setStream', self.originy, self.originy
-#		print self.data
-		
-	def printAI(self):
-		# test code is useful
-		if self.data == None:
-			self.data = TestStream
-		# the AI length key should contain the length including
-		# any extra LF pairs added by Print on DOS.
-		
-#		lines = len(string.split(self.data,'\n'))
-#		length = len(self.data) + lines   # one extra LF each
-		#length = len(self.data)	#AR 19980202
-#		print 'printAI', self.originx, self.originy
-#		print 'printAI', self.transformAI(self.originx, self.originy, self.height)
+    "Used for the contents of a page"
+    def __init__(self):
+        self.data = []
+        self.originx = 0
+        self.originy = 0
+        self.height = 0
 
-			
-#		print '<< /Length %d >>' % length
-		print '''%AI5_BeginLayer
+#    def setStream(self, data):
+#        self.data = data
+#        print 'setStream', self.originy, self.originy
+#        print self.data
+
+    def printAI(self):
+        # test code is useful
+        if self.data == None:
+            self.data = TestStream
+        # the AI length key should contain the length including
+        # any extra LF pairs added by Print on DOS.
+
+#        lines = len(string.split(self.data,'\n'))
+#        length = len(self.data) + lines   # one extra LF each
+        #length = len(self.data)    #AR 19980202
+#        print 'printAI', self.originx, self.originy
+#        print 'printAI', self.transformAI(self.originx, self.originy, self.height)
+
+
+#        print '<< /Length %d >>' % length
+        print '''%AI5_BeginLayer
 1 1 1 1 0 0 0 79 128 255 Lb
 (Foreground) Ln'''
-		print self.transformAI(self.originx, self.originy, self.height)
+        print self.transformAI(self.originx, self.originy, self.height)
 
-#		print 'XXXX', self.data
-		print '''LB
+#        print 'XXXX', self.data
+        print '''LB
 %AI5_EndLayer--'''
 
-	def transformAI(self, ox, oy, ty):
-#		print 'transformAI', ox, oy
-#		print 'transformAI', self.data, type(self.data)
-		page = []
-		for line in self.data:
-#			print line
-			if type(line) == TupleType and  len(line) == 3:
-#				print 'x', line
-				line =  line[0]+ ox,  line[1]+oy, line[2]
-				line =  line[0],  oy + ty -line[1], line[2]
-				line = '%f %f %s' % line
-			elif type(line) == TupleType and  len(line) == 7:
-				line =  line[0]+ox,  line[1]+oy, line[2]+ox,  line[3]+oy, line[4]+ox,  line[5]+oy, line[6]
-				line =  line[0],  oy+ty-line[1], line[2],  oy+ty-line[3], line[4],  oy+ty-line[5], line[6]
-				line = '%f %f %f %f %f %f %s' % line
-#			print line
-			page.append(line)
-		return string.join(page, '\n')
-			
+    def transformAI(self, ox, oy, ty):
+#        print 'transformAI', ox, oy
+#        print 'transformAI', self.data, type(self.data)
+        page = []
+        for line in self.data:
+#            print line
+            if type(line) == TupleType and  len(line) == 3:
+#                print 'x', line
+                line =  line[0]+ ox,  line[1]+oy, line[2]
+                line =  line[0],  oy + ty -line[1], line[2]
+                line = '%f %f %s' % line
+            elif type(line) == TupleType and  len(line) == 7:
+                line =  line[0]+ox,  line[1]+oy, line[2]+ox,  line[3]+oy, line[4]+ox,  line[5]+oy, line[6]
+                line =  line[0],  oy+ty-line[1], line[2],  oy+ty-line[3], line[4],  oy+ty-line[5], line[6]
+                line = '%f %f %f %f %f %f %s' % line
+#            print line
+            page.append(line)
+        return string.join(page, '\n')
+
 class AIImage(AIObject):
-	def printAI(self):
-		print """<<
+    def printAI(self):
+        print """<<
 /Type /XObject
 /Subtype /Image
 /Name /Im0
@@ -824,24 +824,24 @@ B2BBC2 BB6F84 31BFC2 18EA3C 0E3E00 07FC00 03F800
 1E1800 1FF800>
 endstream
 endobj"""
-			
+
 class AIType1Font(AIObject):
-	def __init__(self, key, font):
-		self.fontname = font
-		self.keyname = key
-		self.template = """<<
+    def __init__(self, key, font):
+        self.fontname = font
+        self.keyname = key
+        self.template = """<<
 /Type /Font
 /Subtype /Type1
 /Name /%s
 /BaseFont /%s
 /Encoding /WinAnsiEncoding
 >>"""
-	def printAI(self):
-		print self.template % (self.keyname, self.fontname)
+    def printAI(self):
+        print self.template % (self.keyname, self.fontname)
 
 class AIProcSet(AIObject):
-	def printAI(self):
-		print "[/AI /Text]"
+    def printAI(self):
+        print "[/AI /Text]"
 
 
 
@@ -851,29 +851,29 @@ class AIProcSet(AIObject):
 
 ##############################################################
 #
-#			some helpers
+#            some helpers
 #
 ##############################################################
 
 def MakeType1Fonts():
-	"returns a list of all the standard font objects"
-	fonts = []
-	pos = 1
-	for fontname in StandardEnglishFonts:
-		font = AIType1Font('F'+str(pos), fontname)
-		fonts.append(font)
-		pos = pos + 1
-	return fonts
+    "returns a list of all the standard font objects"
+    fonts = []
+    pos = 1
+    for fontname in StandardEnglishFonts:
+        font = AIType1Font('F'+str(pos), fontname)
+        fonts.append(font)
+        pos = pos + 1
+    return fonts
 
 def MakeFontDictionary(startpos, count):
-	"returns a font dictionary assuming they are all in the file from startpos"	
-	dict = "		<< \n"
-	pos = startpos
-	for i in range(count-1):
-		dict = dict + '\t\t/F%d %d 0 R \n' % (i + 1, startpos + i)
-	dict = dict + "		>>\n"
-	return dict
-	
+    "returns a font dictionary assuming they are all in the file from startpos"
+    dict = "        << \n"
+    pos = startpos
+    for i in range(count-1):
+        dict = dict + '\t\t/F%d %d 0 R \n' % (i + 1, startpos + i)
+    dict = dict + "        >>\n"
+    return dict
+
 
 #if __name__ == '__main__':
-#	print 'For test scripts, run test1.py to test7.py'
+#    print 'For test scripts, run test1.py to test7.py'
