@@ -15,8 +15,11 @@ self.pdf which offers numerous lower-level drawing routines.
 
 
 #standard python library modules
+try:
+    from io import StringIO as cStringIO
+except ImportError:
+    import cStringIO
 import string
-import cStringIO
 import glob
 import os
 import types
