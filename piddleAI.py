@@ -15,6 +15,9 @@ BB 28/09/99 Added Rewrote drawEllipse, drawroundRect and drawArc to use drawBezi
 
 
 """
+
+from __future__ import print_function
+
 from piddle import *
 import aigen
 import string
@@ -35,7 +38,7 @@ class AICanvas(Canvas):
 
     def __init__(self, size=(0,0), name='piddle.ai'):
         Canvas.__init__(self, size, name=name)
-        print name
+        print(name)
         if name[-3:] == '.ai':
             self.name = name
         else:
@@ -96,7 +99,7 @@ class AICanvas(Canvas):
         if len(self.code):
             self.showPage()
         self.doc.SaveToFile(self.name)
-        print 'saved', self.name
+        print('saved', self.name)
 
 
 
@@ -124,13 +127,13 @@ class AICanvas(Canvas):
         self.doc.setAuthor(name)
 
     def _bounds(self, x1, y1, x2, y2):
-#        print self.maxx, x1, x2, y1, y2
+#        print(self.maxx, x1, x2, y1, y2)
         self.maxx = max(self.maxx, x1, x2)
         self.maxy = max(self.maxy, y1, y2)
         self.minx = min(self.minx, x1, x2)
         self.miny = min(self.miny, y1, y2)
         self.boundbox = self.minx, self.miny, self.maxx, self.maxy, self.maxline
-#        print self.boundbox
+#        print(self.boundbox)
 
     def _updateLineColor(self, color):
         color = color or self.defaultLineColor
@@ -352,7 +355,7 @@ class AICanvas(Canvas):
         else:
             op = 'f'
         pointlist = self.bezierArc(x1, y1, x2, y2, startAng, extent)
-#        print pointlist, type(pointlist)
+#        print(pointlist, type(pointlist))
         st = list(pointlist[0][:2])
         st.append('m')
         self.code.append('u')
@@ -403,14 +406,14 @@ class AICanvas(Canvas):
 
         pointlist = self.bezierArc(x1, y1, x1+2*rx, y1+2*ry, 90, 360)
 #        for c in pointlist:
-#            print c
+#            print(c)
 
         trans = [(0, 0), (0, y2-y1-2*ry), (x2-x1-2*rx, y2-y1-2*ry), (x2-x1-2*rx, 0)]
         st = list(pointlist[0][:2])
         stx = [0, 2, 4, 6]
         sty = [1, 3, 5, 7]
         st.append('m')
-#        print st
+#        print(st)
         self.code.append('u')
         self.code.append(tuple(st))
         for i in range(len(pointlist)):
@@ -423,8 +426,8 @@ class AICanvas(Canvas):
             sl = sl[:2]
             sk.append('c')
             sl.append('l')
-#            print sl
-#            print sk
+#            print(sl)
+#            print(sk)
             if i != 0:
                 self.code.append(tuple(sl))
             self.code.append(tuple(sk))
@@ -447,7 +450,7 @@ class AICanvas(Canvas):
         w = self._currentWidth/2
         self._bounds(x1-w, y1-w, x2+w, y2+w)
         pointlist = self.bezierArc(x1, y1, x2, y2, 0, 360)
-#        print pointlist, type(pointlist)
+#        print(pointlist, type(pointlist))
         st = list(pointlist[0][:2])
         st.append('m')
         self.code.append('u')
@@ -502,7 +505,7 @@ class AICanvas(Canvas):
 
 
     def drawString():
-        print "Sorry Not yet impemented"
+        print("Sorry Not yet impemented")
 
 
 
