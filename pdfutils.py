@@ -2,6 +2,7 @@
 # compression, and some constants
 
 import os
+import sys
 import string
 import cStringIO
 
@@ -146,6 +147,9 @@ def _AsciiHexTest(text='What is the average velocity of a sparrow?'):
     else:
         print 'Failed!'
 
+if sys.version_info[0] > 2:
+    long = int
+
 def _AsciiBase85Encode(input):
     """This is a compact encoding used for binary data within
     a PDF file.  Four bytes of binary data become five bytes of
@@ -163,7 +167,7 @@ def _AsciiBase85Encode(input):
         b3 = ord(body[offset+2])
         b4 = ord(body[offset+3])
 
-        num = 16777216L * b1 + 65536 * b2 + 256 * b3 + b4
+        num = long(16777216) * b1 + 65536 * b2 + 256 * b3 + b4
 
         if num == 0:
             #special case
@@ -194,7 +198,7 @@ def _AsciiBase85Encode(input):
         b3 = ord(lastbit[2])
         b4 = ord(lastbit[3])
 
-        num = 16777216L * b1 + 65536 * b2 + 256 * b3 + b4
+        num = long(16777216) * b1 + 65536 * b2 + 256 * b3 + b4
 
         #solve for c1..c5
         temp, c5 = divmod(num, 85)
