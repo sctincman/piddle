@@ -17,17 +17,17 @@ self.pdf which offers numerous lower-level drawing routines.
 #standard python library modules
 import string
 import cStringIO
-import pdfmetrics
 import glob
 import os
 import types
 from math import sin, cos, pi, ceil
 
 # app specific
-import pagesizes
-from piddle import *
-import pdfgen
-import pdfgeom
+from . import pdfmetrics
+from . import pagesizes
+from .piddle import *
+from . import pdfgen
+from . import pdfgeom
 
 #edit this is the setting offends you, or set it in the constructor
 DEFAULT_PAGE_SIZE = pagesizes.A4
