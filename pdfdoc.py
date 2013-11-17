@@ -242,7 +242,7 @@ class PDFDocument:
         try:
             return self.fontMapping[psfontname]
         except:
-            raise PDFError, "Font %s not available in document" % psfontname
+            raise PDFError("Font %s not available in document" % psfontname)
 
     def getAvailableFonts(self):
         fontnames = self.fontMapping.keys()
