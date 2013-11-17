@@ -608,7 +608,7 @@ class Canvas:
                 encoded = pdfutils._AsciiBase85Encode(compressed)
                 outstream = cStringIO.StringIO(encoded)
                 dataline = outstream.read(60)
-                while dataline <> "":
+                while dataline != "":
                     imagedata.append(dataline)
                     dataline = outstream.read(60)
                 imagedata.append('EI')
@@ -646,7 +646,7 @@ class Canvas:
             #write in blocks of (??) 60 characters per line to a list
             outstream = cStringIO.StringIO(encoded)
             dataline = outstream.read(60)
-            while dataline <> "":
+            while dataline != "":
                 imagedata.append(dataline)
                 dataline = outstream.read(60)
             imagedata.append('EI')
