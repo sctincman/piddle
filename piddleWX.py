@@ -81,6 +81,8 @@ wxWindows Python language bindings into a GUI window.
 #    easy to do).
 
 
+from __future__ import print_function
+
 from wxPython.wx import *
 
 from piddleWxDc import PiddleWxDc
@@ -189,10 +191,10 @@ class _WXCanvasDefaultStatusBar(wxStatusBar):
       self.Reposition()
 
   def Reposition(self):
-    #print "Field Rects:"
-    #print self.GetFieldRect(0)
-    #print self.GetFieldRect(1)
-    #print self.GetFieldRect(2)
+    #print("Field Rects:")
+    #print(self.GetFieldRect(0))
+    #print(self.GetFieldRect(1))
+    #print(self.GetFieldRect(2))
 
     # layout field 0 with Buttons for quit and clear
 
