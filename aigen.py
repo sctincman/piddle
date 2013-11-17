@@ -8,6 +8,8 @@ complete Reporting solution in Python.
 parts (C) Copyright Andy Robinson 1998-1999
 """
 
+from __future__ import print_function
+
 import os
 import sys
 import string
@@ -344,7 +346,7 @@ class FontCache:
 
     def loadfont(self, fontname):
         filename = AFMDIR + os.sep + fontname + '.afm'
-        print 'cache loading',filename
+        print('cache loading', filename)
         assert os.path.exists(filename)
         widths = parseAFMfile(filename)
         self.__widtharrays[fontname] = widths
@@ -357,7 +359,7 @@ class FontCache:
                 return self.__widtharrays[fontname]
             except:
                 # font not found, use Courier
-                print 'Font',fontname,'not found - using Courier for widths'
+                print('Font', fontname, 'not found - using Courier for widths')
                 return self.getfont('courier')
 
 
@@ -443,8 +445,8 @@ class AIDocument:
         self.transforms.originy = 0
 #        self.info.boundingBox = boundingbox
         lx,ly, ux,uy, tx = boundingbox
-        print 'setBoundingBox', lx,ly, ux,uy, tx
-        print 'setBoundingBox', ux-lx,uy-ly
+        print('setBoundingBox', lx,ly, ux,uy, tx)
+        print('setBoundingBox', ux-lx,uy-ly)
         self.info.pagesize = (ux-lx), (uy-ly)
         ##XXX If the ArtSize is smaller than Letter Freehand always draws the
         ##XXX origin as if the Art board was Letter sized, however the arboard
@@ -456,20 +458,20 @@ class AIDocument:
         if uy-ly < 792:
             self.transforms.originy = w = (792 - (uy-ly))/2 +tx
             ly, uy = ly + w, uy + w
-#        print self.transforms
-#        print self.transforms.originx
-#        print self.transforms.originy
-        print 'setBoundingBox', lx,ly, ux,uy
+#        print(self.transforms)
+#        print(self.transforms.originx)
+#        print(self.transforms.originy)
+        print('setBoundingBox', lx,ly, ux,uy)
         self.info.boundingBox = lx, ly, ux, uy
         self.transforms.height = uy
 
     def setPage(self, page):
-#        print 'setPage', page
+#        print('setPage', page)
         self.transforms.data = page
 
 
     def SaveToFile(self, filename):
-#        print 'SaveToFile', self.transforms.originx, self.transforms.originy
+#        print('SaveToFile', self.transforms.originx, self.transforms.originy)
         f = open(filename, 'w')
         old_output = sys.stdout
         sys.stdout = f
@@ -479,38 +481,38 @@ class AIDocument:
 
     def printXref(self):
         self.startxref = sys.stdout.tell()
-        print 'xref'
-        print 0,len(self.objects) + 1
-        print '0000000000 65535 f'
+        print('xref')
+        print(0, len(self.objects) + 1)
+        print('0000000000 65535 f')
         for pos in self.xref:
-            print '%0.10d 00000 n' % pos
+            print('%0.10d 00000 n' % pos)
 
     def printTrailer(self):
-        print '''%%PageTrailer
+        print('''%%PageTrailer
 gsave annotatepage grestore showpage
-%%Trailer'''
-#        print '<< /Size %d /Root %d 0 R /Info %d 0 R>>' % (len(self.objects) + 1, 1, self.infopos)
-#        print 'startxref'
-#        print self.startxref
+%%Trailer''')
+#        print('<< /Size %d /Root %d 0 R /Info %d 0 R>>' % (len(self.objects) + 1, 1, self.infopos))
+#        print('startxref')
+#        print(self.startxref)
 
     def printAI(self):
         "prints it to standard output.  Logs positions for doing trailer"
-#        print "%AI-1.0"
-#        print "%’“¦²"
+#        print("%AI-1.0")
+#        print("%’“¦²")
         i = 1
         self.xref = []
-#        print self.objects
+#        print(self.objects)
         for obj in self.objects:
-#            print 'printAI', obj
+#            print('printAI', obj)
 #            pos = sys.stdout.tell()
 #            self.xref.append(pos)
-#            print i, '0 obj'
+#            print(i, '0 obj')
             obj.printAI()
-#            print 'endobj'
+#            print('endobj')
 #            i = i + 1
 #        self.printXref()
         self.printTrailer()
-        print "%%EOF",
+        print("%%EOF", end='')
 
 
     def addPage(self, page):
@@ -524,11 +526,11 @@ gsave annotatepage grestore showpage
 #            'contentspos':pos + 2}
 
 #        self.PageCol.PageList.append(pos+1)
-#        print 'addPage', self.transforms.setStream((10, 20, 'm'))
-#        print 'addPage', self.transforms.setStream(page)
+#        print('addPage', self.transforms.setStream((10, 20, 'm')))
+#        print('addPage', self.transforms.setStream(page))
 #        self.page =
         self.transforms.data = page
-#        print 'addPage', self.page
+#        print('addPage', self.page)
 #        self.objects.append(page)
 #        self.objects.append(self.page)
 
@@ -570,10 +572,10 @@ class OutputGrabber:
 def testOutputGrabber():
     gr = OutputGrabber()
     for i in range(10):
-        print 'line',i
+        print('line', i)
     data = gr.getData()
     gr.close()
-    print 'Data...',data
+    print('Data...', data)
 
 
 ##############################################################
@@ -587,7 +589,7 @@ def testOutputGrabber():
 class AIObject:
     "Base class for all AI objects"
     def printAI(self):
-        print '% base AI object'
+        print('% base AI object')
 
 
 class AILiteral(AIObject):
@@ -595,7 +597,7 @@ class AILiteral(AIObject):
     def __init__(self, text):
         self.text = text
     def printAI(self):
-        print self.text
+        print(self.text)
 
 
 
@@ -608,7 +610,7 @@ class AICatalog(AIObject):
 /Outlines %d 0 R
 >>'''
     def printAI(self):
-        print self.template % (self.RefPages, self.RefOutlines)
+        print(self.template % (self.RefPages, self.RefOutlines))
 
 class AIHeader(AIObject):
     # no features implemented yet
@@ -622,26 +624,26 @@ class AIHeader(AIObject):
         self.datestr = time.strftime("%x %I:%M %p", now)
 
     def printAI(self):
-        print "%!PS-Adobe-3.0"
-        print "%%Creator: PIDDLE Adobe Illustrator backend"
-        print "%%Title: " +'(%s)' % self.title
-        print "%%For: " +'(%s)' % self.author
-        print "%%CreationDate: " +'(%s)' % self.datestr
-        print "%%DocumentProcessColors: Black"""
-        print '%%BoundingBox: ' + '%s %s %s %s' % self.boundingBox
+        print("%!PS-Adobe-3.0")
+        print("%%Creator: PIDDLE Adobe Illustrator backend")
+        print("%%Title: " +'(%s)' % self.title)
+        print("%%For: " +'(%s)' % self.author)
+        print("%%CreationDate: " +'(%s)' % self.datestr)
+        print("%%DocumentProcessColors: Black""")
+        print('%%BoundingBox: ' + '%s %s %s %s' % self.boundingBox)
         #%%DocumentProcessColors: Cyan Magenta Yellow
         #%%DocumentCustomColors: (PANTONE 156 CV)
         #%%RGBCustomColor: red green blue (customcolorname)
         #%%DocumentFonts: CooperBlack
         #%%+ Minion-Regular
         #%%DocumentFiles: WrathOfRalph
-        print "%AI5_FileFormat 3"
-        print "%AI3_ColorUsage: Color"
-        print '%AI5_ArtSize: ' + '%s %s' % self.pagesize
-        print '%AI5_Templatebox: ' + '%s %s' % self.pagesize
+        print("%AI5_FileFormat 3")
+        print("%AI3_ColorUsage: Color")
+        print('%AI5_ArtSize: ' + '%s %s' % self.pagesize)
+        print('%AI5_Templatebox: ' + '%s %s' % self.pagesize)
         #%AI7_ImageSettings: flag
-        print '%AI5_TargetResolution: 300'
-        print '%%EndComments'
+        print('%AI5_TargetResolution: 300')
+        print('%%EndComments')
 
 
 class AIProlog(AIObject):
@@ -649,18 +651,18 @@ class AIProlog(AIObject):
     def __init__(self):
         self.FontList = []
     def printAI(self):
-        print '%%BeginProlog'
-        print '%%EndProlog'
+        print('%%BeginProlog')
+        print('%%EndProlog')
 
 class AISetUp(AIObject):
     "null outline, does nothing yet"
     def __init__(self):
         self.FontList = []
     def printAI(self):
-        print '%%BeginSetup'
+        print('%%BeginSetup')
         if self.FontList:
             pass
-        print '%%EndSetup'
+        print('%%EndSetup')
 
 class AIPageCollection(AIObject):
     "presumes PageList attribute set (list of integers)"
@@ -671,7 +673,7 @@ class AIPageCollection(AIObject):
         for page in self.PageList:
             result = result + str(page) + ' 0 R '
         result = result + ']\n>>'
-        print result
+        print(result)
 
 #class AIBody(AIObject):
 #    """The Bastard.  Needs list of Resources etc. Use a standard one for now.
@@ -699,8 +701,8 @@ class AIPageCollection(AIObject):
 ##        else:
 ##            self.info['procsettext'] = '[/AI /Text]'
 ##
-##        print self.template % self.info
-#        print "AIBody.printAI(self)"
+##        print(self.template % self.info)
+#        print("AIBody.printAI(self)")
 #
 #    def clear(self):
 #        self.drawables = []
@@ -724,16 +726,16 @@ class AIPageCollection(AIObject):
 #    #    for obj in self.drawables:
 #    #        if obj.isText():
 #    #            if text == 0:
-#    #                print 'BT'
+#    #                print('BT')
 #    #                text = 1
 #    #        else:
 #    #            if text == 1:
-#    #                print 'ET'
+#    #                print('ET')
 #    #                text = 0
 #    #
 #    #        obj.printAI()
 #    #    if self.drawables[-1].isText():
-#    #        print 'ET'
+#    #        print('ET')
 #    #    sys.stdout = oldout
 #    #    f.close()
 #    #
@@ -758,8 +760,8 @@ class AIStream(AIObject):
 
 #    def setStream(self, data):
 #        self.data = data
-#        print 'setStream', self.originy, self.originy
-#        print self.data
+#        print('setStream', self.originy, self.originy)
+#        print(self.data)
 
     def printAI(self):
         # test code is useful
@@ -771,28 +773,28 @@ class AIStream(AIObject):
 #        lines = len(string.split(self.data,'\n'))
 #        length = len(self.data) + lines   # one extra LF each
         #length = len(self.data)    #AR 19980202
-#        print 'printAI', self.originx, self.originy
-#        print 'printAI', self.transformAI(self.originx, self.originy, self.height)
+#        print('printAI', self.originx, self.originy)
+#        print('printAI', self.transformAI(self.originx, self.originy, self.height))
 
 
-#        print '<< /Length %d >>' % length
-        print '''%AI5_BeginLayer
+#        print('<< /Length %d >>' % length)
+        print('''%AI5_BeginLayer
 1 1 1 1 0 0 0 79 128 255 Lb
-(Foreground) Ln'''
-        print self.transformAI(self.originx, self.originy, self.height)
+(Foreground) Ln''')
+        print(self.transformAI(self.originx, self.originy, self.height))
 
-#        print 'XXXX', self.data
-        print '''LB
-%AI5_EndLayer--'''
+#        print('XXXX', self.data)
+        print('''LB
+%AI5_EndLayer--''')
 
     def transformAI(self, ox, oy, ty):
-#        print 'transformAI', ox, oy
-#        print 'transformAI', self.data, type(self.data)
+#        print('transformAI', ox, oy)
+#        print('transformAI', self.data, type(self.data))
         page = []
         for line in self.data:
-#            print line
+#            print(line)
             if type(line) == TupleType and  len(line) == 3:
-#                print 'x', line
+#                print('x', line)
                 line =  line[0]+ ox,  line[1]+oy, line[2]
                 line =  line[0],  oy + ty -line[1], line[2]
                 line = '%f %f %s' % line
@@ -800,13 +802,13 @@ class AIStream(AIObject):
                 line =  line[0]+ox,  line[1]+oy, line[2]+ox,  line[3]+oy, line[4]+ox,  line[5]+oy, line[6]
                 line =  line[0],  oy+ty-line[1], line[2],  oy+ty-line[3], line[4],  oy+ty-line[5], line[6]
                 line = '%f %f %f %f %f %f %s' % line
-#            print line
+#            print(line)
             page.append(line)
         return string.join(page, '\n')
 
 class AIImage(AIObject):
     def printAI(self):
-        print """<<
+        print("""<<
 /Type /XObject
 /Subtype /Image
 /Name /Im0
@@ -823,7 +825,7 @@ stream
 B2BBC2 BB6F84 31BFC2 18EA3C 0E3E00 07FC00 03F800
 1E1800 1FF800>
 endstream
-endobj"""
+endobj""")
 
 class AIType1Font(AIObject):
     def __init__(self, key, font):
@@ -837,11 +839,11 @@ class AIType1Font(AIObject):
 /Encoding /WinAnsiEncoding
 >>"""
     def printAI(self):
-        print self.template % (self.keyname, self.fontname)
+        print(self.template % (self.keyname, self.fontname))
 
 class AIProcSet(AIObject):
     def printAI(self):
-        print "[/AI /Text]"
+        print("[/AI /Text]")
 
 
 
@@ -876,4 +878,4 @@ def MakeFontDictionary(startpos, count):
 
 
 #if __name__ == '__main__':
-#    print 'For test scripts, run test1.py to test7.py'
+#    print('For test scripts, run test1.py to test7.py')
