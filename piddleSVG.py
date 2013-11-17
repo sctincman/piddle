@@ -243,7 +243,7 @@ class SVGCanvas( Canvas ):
       self.name = file
     if type == '':
       if '.' not in self.name:
-        raise TypeError, 'no file type given to save()'
+        raise TypeError('no file type given to save()')
       filename = self.name
     else:
       if '.' not in self.name:
@@ -253,7 +253,7 @@ class SVGCanvas( Canvas ):
     outFile = open(filename,'w+')
     outFile.write(self._txt+'</svg>')
     outFile.close()
-    #print filename, "saved"
+    #print(filename, "saved")
 
 
   #------------- drawing methods --------------
@@ -520,7 +520,7 @@ class SVGCanvas( Canvas ):
         pathStr = pathStr + self._FormArcStr(x1,y1,x2,y2,theta1,extent)
 
       else:
-        raise TypeError, "unknown figure operator: "+op
+        raise TypeError("unknown figure operator: " + op)
 
     if closed == 1:
       pathStr = pathStr + 'Z'
