@@ -874,7 +874,7 @@ translate
        outstream = cStringIO.StringIO(hex_encoded)
 
        dataline = outstream.read(78)
-       while dataline <> "":
+       while dataline != "":
            self.code.append(dataline)
            dataline= outstream.read(78)
        self.code.append('% end of image data') # for clarity
@@ -965,7 +965,7 @@ translate
         outstream = cStringIO.StringIO(hex_encoded)
 
         dataline = outstream.read(78)
-        while dataline <> "":
+        while dataline != "":
             self.code.append(dataline)
             dataline= outstream.read(78)
         self.code.append('> % end of image data') # > is EOD for hex encoded filterfor clarity
