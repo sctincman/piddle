@@ -169,7 +169,7 @@ class VCRCanvas( Canvas ):
 
     def drawCurve(self, x1,y1, x2,y2, x3,y3, x4,y4,
                 edgeColor=None, edgeWidth=None, fillColor=None, closed=0):
-        "Draw a Bézier curve with control points x1,y1 to x4,y4."
+        "Draw a BÃ©zier curve with control points x1,y1 to x4,y4."
 
         self._recordfunc("drawCurve", x1,y1,x2,y2,x3,y3,x4,y4,edgeColor,edgeWidth,fillColor,closed)
 
