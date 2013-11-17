@@ -17,6 +17,8 @@ Code factoring and pil image support by Jeffrey Kunce
 see also piddleWxDcDemo.py
 '''
 
+from __future__ import print_function
+
 from wxPython.wx import *
 import piddle
 
@@ -260,7 +262,7 @@ class PiddleWxDc(piddle.Canvas):
         try:
             from PIL import Image
         except ImportError:
-            print 'PIL not installed as package'
+            print('PIL not installed as package')
             try:
                 import Image
             except ImportError:
