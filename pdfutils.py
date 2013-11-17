@@ -34,7 +34,7 @@ def cacheImageFile(filename):
     #write in blocks of 60 characters per line
     outstream = cStringIO.StringIO(encoded)
     dataline = outstream.read(60)
-    while dataline <> "":
+    while dataline != "":
         code.append(dataline)
         dataline = outstream.read(60)
 
@@ -229,7 +229,7 @@ def _AsciiBase85Decode(input):
     # special rules apply if not a multiple of five bytes
     whole_word_count, remainder_size = divmod(len(stripped), 5)
     #print '%d words, %d leftover' % (whole_word_count, remainder_size)
-    assert remainder_size <> 1, 'invalid Ascii 85 stream!'
+    assert remainder_size != 1, 'invalid Ascii 85 stream!'
     cut = 5 * whole_word_count
     body, lastbit = stripped[0:cut], stripped[cut:]
 
