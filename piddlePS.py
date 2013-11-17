@@ -785,7 +785,7 @@ translate
                    figureCode.append("%s %s neg lineto" % tuple(args[:2]))
                figureCode.append("%s %s neg %s %s neg %s %s neg curveto" % tuple(args[2:]))
            else:
-               raise TypeError, "unknown figure operator: "+op
+               raise TypeError("unknown figure operator: " + op)
 
        if closed:
            figureCode.append("closepath")
