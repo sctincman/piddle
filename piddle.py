@@ -144,7 +144,7 @@ class Color:
         d["blue"] = _float(blue)
 
     def __setattr__(self, name, value):
-        raise TypeError, "piddle.Color has read-only attributes"
+        raise TypeError("piddle.Color has read-only attributes")
 
     def __mul__(self,x):
         return Color(self.red*x, self.green*x, self.blue*x)
@@ -370,7 +370,7 @@ class Font:
                                          self.underline, repr(self.face))
 
     def __setattr__(self, name, value):
-        raise TypeError, "piddle.Font has read-only attributes"
+        raise TypeError("piddle.Font has read-only attributes")
 
 
 #-------------------------------------------------------------------------
@@ -482,7 +482,7 @@ class Canvas:
     def stringWidth(self, s, font=None):
         "Return the logical width of the string if it were drawn \
         in the current font (defaults to self.font)."
-        raise NotImplementedError, 'stringWidth'
+        raise NotImplementedError('stringWidth')
 
     def fontHeight(self, font=None):
         "Find the height of one line of text (baseline to baseline) of the given font."
@@ -493,11 +493,11 @@ class Canvas:
 
     def fontAscent(self, font=None):
         "Find the ascent (height above base) of the given font."
-        raise NotImplementedError, 'fontAscent'
+        raise NotImplementedError('fontAscent')
 
     def fontDescent(self, font=None):
         "Find the descent (extent below base) of the given font."
-        raise NotImplementedError, 'fontDescent'
+        raise NotImplementedError('fontDescent')
 
     #------------- drawing helpers --------------
 
@@ -603,7 +603,7 @@ class Canvas:
 
     def drawLine(self, x1,y1, x2,y2, color=None, width=None):
         "Draw a straight line between x1,y1 and x2,y2."
-        raise NotImplementedError, 'drawLine'
+        raise NotImplementedError('drawLine')
 
     def drawLines(self, lineList, color=None, width=None):
         "Draw a set of lines of uniform color and width.  \
@@ -618,7 +618,7 @@ class Canvas:
     def drawString(self, s, x,y, font=None, color=None, angle=0):
         "Draw a string starting at location x,y."
         # NOTE: the baseline goes on y; drawing covers (y-ascent,y+descent)
-        raise NotImplementedError, 'drawString'
+        raise NotImplementedError('drawString')
 
 
     # For fillable shapes, edgeColor defaults to self.defaultLineColor,
@@ -698,7 +698,7 @@ class Canvas:
         pointlist: a list of (x,y) tuples defining vertices
         closed: if 1, adds an extra segment connecting the last point to the first
         """
-        raise NotImplementedError, 'drawPolygon'
+        raise NotImplementedError('drawPolygon')
 
     def drawFigure(self, partList,
                    edgeColor=None, edgeWidth=None, fillColor=None, closed=0):
@@ -720,7 +720,7 @@ class Canvas:
             elif op == figureCurve:
                 pointList.extend(apply(self.curvePoints,args))
             else:
-                raise TypeError, "unknown figure operator: "+op
+                raise TypeError("unknown figure operator: " + op)
 
         self.drawPolygon(pointList, edgeColor, edgeWidth, fillColor, closed=closed)
 
@@ -730,7 +730,7 @@ class Canvas:
     def drawImage(self, image, x1,y1, x2=None,y2=None):
         """Draw a PIL Image into the specified rectangle.  If x2 and y2 are
         omitted, they are calculated from the image size."""
-        raise NotImplementedError, 'drawImage'
+        raise NotImplementedError('drawImage')
 
 
 
