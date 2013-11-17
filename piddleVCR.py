@@ -1,16 +1,16 @@
 # piddleVCR.py -- a record/playback canvas for PIDDLE
 # Copyright (C) 1999  Joseph J. Strout
-# 
+#
 # This library is free software; you can redistribute it and/or
 # modify it under the terms of the GNU Lesser General Public
 # License as published by the Free Software Foundation; either
 # version 2 of the License, or (at your option) any later version.
-# 
+#
 # This library is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
 # Lesser General Public License for more details.
-# 
+#
 # You should have received a copy of the GNU Lesser General Public
 # License along with this library; if not, write to the Free Software
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
@@ -61,21 +61,21 @@ def _reprs(*args):
 
 
 class VCRCanvas( Canvas ):
-    
+
     def __init__(self, size=(0,0), name="piddleVCR", playthru=None):
         # canvas we send drawing commands to while recording;
         # also used for font metrics:
-        self.__dict__['playthru'] = playthru    
+        self.__dict__['playthru'] = playthru
         self.__dict__['recording'] = []
         Canvas.__init__(self, size, name)
         self.__dict__['recording'] = []        # wipe out any extra piddle initialization
-        
+
     def __setattr__(self, attribute, value):
         if self.playthru: setattr(self.playthru, attribute, value)
         self.__dict__[attribute] = value
         if attribute[0] == '_': return
         self._record("%s = %s" % (attribute, _repr(value)) )
-                
+
     # private functions
     def _record(self,s):
         self.recording.append(s)
@@ -87,19 +87,19 @@ class VCRCanvas( Canvas ):
         if self.playthru:
             exec('self.playthru.' + s)
         self._record(s)
-        
+
     # public functions
 
     def flush(self):
         if self.playthru:
             self.playthru.flush()
-        
+
 
     def playBack(self, canvas):
         for item in self.recording:
             exec("canvas." + item)
         canvas.flush()
-    
+
     def save(self, file=None, format=None):
         "file may be either a filename or a file object. The format argument is not used"
         if type(file) == StringType: file = open(file,'w')
@@ -107,7 +107,7 @@ class VCRCanvas( Canvas ):
         for item in self.recording:
             file.write(item + '\n')
         file.write("END")
-    
+
     def load(self, file):
         if type(file) == StringType: file = open(file,'r')
         line = ''
@@ -120,7 +120,7 @@ class VCRCanvas( Canvas ):
         while line != "END":
             self.recording.append(string.strip(line))
             line = file.readline()
-        return len(self.recording)        
+        return len(self.recording)
 
     #------------ string/font info ------------
     def stringWidth(self, s, font=None):
@@ -131,7 +131,7 @@ class VCRCanvas( Canvas ):
                         return self.playthru.stringWidth(s,font)
         else:
                         return Canvas.stringWidth(self,s,font)
-    
+
     def fontAscent(self, font=None):
         "Find the ascent (height above base) of the given font."
 
@@ -139,13 +139,13 @@ class VCRCanvas( Canvas ):
                         return self.playthru.fontAscent(font)
         else:
                         return Canvas.fontAscent(self,font)
-    
+
     def fontDescent(self, font=None):
         "Find the descent (extent below base) of the given font."
 
         if self.playthru: return self.playthru.fontDescent(font)
         else: return Canvas.fontDescent(self,font)
-    
+
     #------------- drawing methods --------------
     def drawLine(self, x1,y1, x2,y2, color=None, width=None):
         "Draw a straight line between x1,y1 and x2,y2."
@@ -163,9 +163,9 @@ class VCRCanvas( Canvas ):
         "Draw a string starting at location x,y."
 
         self._recordfunc("drawString", s,x,y,font,color,angle)
-        
 
-    def drawCurve(self, x1,y1, x2,y2, x3,y3, x4,y4, 
+
+    def drawCurve(self, x1,y1, x2,y2, x3,y3, x4,y4,
                 edgeColor=None, edgeWidth=None, fillColor=None, closed=0):
         "Draw a Bézier curve with control points x1,y1 to x4,y4."
 
@@ -175,7 +175,7 @@ class VCRCanvas( Canvas ):
     def drawRect(self, x1,y1, x2,y2, edgeColor=None, edgeWidth=None, fillColor=None):
         "Draw the rectangle between x1,y1, and x2,y2. \
         These should have x1<x2 and y1<y2."
-        
+
         self._recordfunc("drawRect", x1,y1,x2,y2,edgeColor,edgeWidth,fillColor)
 
 
@@ -204,7 +204,7 @@ class VCRCanvas( Canvas ):
 
         self._recordfunc("drawArc", x1,y1,x2,y2,startAng,extent,edgeColor,edgeWidth,fillColor)
 
-    def drawPolygon(self, pointlist, 
+    def drawPolygon(self, pointlist,
                 edgeColor=None, edgeWidth=None, fillColor=None, closed=0):
         """drawPolygon(pointlist) -- draws a polygon
         pointlist: a list of (x,y) tuples defining vertices
@@ -241,9 +241,9 @@ class VCRCanvas( Canvas ):
 #              self._record("
 #          self.shelf[imageKeyName] = image
 
-#          self._recordfunc("drawImage, 
-        
-        
+#          self._recordfunc("drawImage,
+
+
 def test1():
     import piddlePS
     canvas = piddlePS.PSCanvas()
@@ -261,7 +261,7 @@ def test2():
     f = open('test1.vcr','r')
     vcr.load(f)
     f.close()
-    
+
     import piddlePS
     canvas2 = piddlePS.PSCanvas()
     vcr.playBack(canvas2)
