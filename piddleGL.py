@@ -26,6 +26,8 @@
 #
 #####
 
+from __future__ import print_function
+
 __version__ = 0.1 # public release -- Sep 28, 1999
 
 # TODO: fix GLU Tesselation code for polygon handling
@@ -61,7 +63,7 @@ try:
         def vertexCB(self, O):
             glVertex2d(O[0], O[1])
         def combineCB(self, p1, p2, p3):
-            print len(p3)
+            print(len(p3))
             return p3[0][-1]
         def edgeFlagCB(self, *args):
             pass
@@ -421,11 +423,11 @@ try:
             pass
 
         def keyboard(*args):
-            print args
+            print(args)
 
         def mainloop(self):
             glutMainLoop()
-    if _debug: print "# GlutCanvas available"
+    if _debug: print("# GlutCanvas available")
 except NameError:
     pass
 
@@ -489,7 +491,7 @@ try:
 
         def setInfoLine(self, s):
             pass
-    if _debug: print "# ToglCanvas available"
+    if _debug: print("# ToglCanvas available")
 except ImportError:
     pass
 
@@ -562,6 +564,6 @@ except ImportError:
 
 if _debug:
     if FontSupport == 0:
-        print "# Can't find font support"
+        print("# Can't find font support")
     else:
-        print "# Using fonts from:", FontWrapper.__name__
+        print("# Using fonts from:", FontWrapper.__name__)
