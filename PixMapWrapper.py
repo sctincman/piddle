@@ -5,6 +5,8 @@ Python Imaging Library Image object.
 
 J. Strout <joe@strout.net>  February 1999"""
 
+from __future__ import print_function
+
 import Qd
 import QuickDraw
 import struct
@@ -151,7 +153,7 @@ class PixMapWrapper:
         if y2 == None:
             dest[3] = y1 + src[3]-src[1]
         if not port: port = Qd.GetPort()
-        print "blit port:", port
+        print("blit port:", port)
         Qd.CopyBits(self.PixMap(), port.portBits, src, tuple(dest),
                 QuickDraw.srcCopy, None)
 
