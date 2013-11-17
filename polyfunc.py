@@ -12,6 +12,7 @@
 # Testing:
 #   works w/ piddlePS and piddlePIL
 
+from __future__ import print_function
 
 
 def quadratic(x,A,B,C):
@@ -32,10 +33,10 @@ def quadPts(xinterval,  A=0., B=0., C=0.):
     x0 = float(xinterval[0])
     x3 = float(xinterval[1])
     y0 = quadratic(x0, A,B,C)
-    ### print 'y0=', y0 DEBUG
+    ### print('y0=', y0) #DEBUG
 
     xlen = x3-x0
-    # print 'xlen = ', xlen
+    # print('xlen = ', xlen)
     cx = xlen  # set x scaling, check if makes sense for xlen <0
 
     # convert to cubic paramaters, adjust for xscaling
@@ -48,7 +49,7 @@ def quadPts(xinterval,  A=0., B=0., C=0.):
     b = (0, A*cx*cx )
     c = (cx, B*cx+2*b[1]*x0/cx)
     v0 = (x0,C-(b[1]/(cx*cx)) *x0*x0) ;
-    ### print a,b,c,v0
+    ### print(a,b,c,v0)
     x = [x0, 0, 0, 0]; y = [y0, 0, 0, 0]
     v = [x, y]
     for ii in (0, 1): # iterate over vector components
@@ -69,10 +70,10 @@ def cubicPts(xinterval,  A=0., B=0., C=0., D=0):
     x0 = float(xinterval[0])
     x3 = float(xinterval[1])
     y0 = cubic(x0, A,B,C,D)  # y0 = y(x0)
-    # print 'y0=', y0 ##DEBUG
+    # print('y0=', y0) ##DEBUG
 
     xlen = x3-x0
-    # print 'xlen = ', xlen
+    # print('xlen = ', xlen)
     cx = xlen  # set x scaling, check if makes sense for xlen <0
 
     # convert to cubic paramaters, adjust for xscaling
@@ -85,7 +86,7 @@ def cubicPts(xinterval,  A=0., B=0., C=0., D=0):
     b = (0, B*cx*cx+ 3*A*cx*cx*x0 )
     c = (cx, C*cx + 2*B*cx*x0+3*A*cx*x0*x0)
     v0 = (x0,y0) ;
-    ### print a,b,c,v0
+    ### print(a,b,c,v0)
     x = [x0, 0, 0, 0]; y = [y0, 0, 0, 0]
     v = [x, y]
     for ii in (0, 1): # iterate over vector components
@@ -316,7 +317,7 @@ def runtest():
 
 
 if __name__== '__main__':
-    print 'Running test drawing assorted quadratics to qtest.ps'
+    print('Running test drawing assorted quadratics to qtest.ps')
     import piddle
     runtest()
 
