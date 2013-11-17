@@ -1,6 +1,8 @@
 # pdfutils.py - everything to do with images, streams,
 # compression, and some constants
 
+from __future__ import print_function
+
 import os
 import sys
 import string
@@ -46,7 +48,7 @@ def cacheImageFile(filename):
     f = open(cachedname,'wb')
     f.write(string.join(code, LINEEND)+LINEEND)
     f.close()
-    print 'cached image as %s' % cachedname
+    print('cached image as %s' % cachedname)
 
 
 def preProcessImages(spec):
@@ -62,7 +64,7 @@ def preProcessImages(spec):
 
     for filename in filelist:
         if cachedImageExists(filename):
-            print 'cached version of %s already exists' % filename
+            print('cached version of %s already exists' % filename)
         else:
             cacheImageFile(filename)
 
@@ -137,15 +139,15 @@ def _AsciiHexDecode(input):
 
 def _AsciiHexTest(text='What is the average velocity of a sparrow?'):
     "Do the obvious test for whether Ascii Hex encoding works"
-    print 'Plain text:', text
+    print('Plain text:', text)
     encoded = _AsciiHexEncode(text)
-    print 'Encoded:', encoded
+    print('Encoded:', encoded)
     decoded = _AsciiHexDecode(encoded)
-    print 'Decoded:', decoded
+    print('Decoded:', decoded)
     if decoded == text:
-        print 'Passed'
+        print('Passed')
     else:
-        print 'Failed!'
+        print('Failed!')
 
 if sys.version_info[0] > 2:
     long = int
@@ -206,8 +208,8 @@ def _AsciiBase85Encode(input):
         temp, c3 = divmod(temp, 85)
         c1, c2 = divmod(temp, 85)
 
-        #print 'encoding: %d %d %d %d -> %d -> %d %d %d %d %d' % (
-        #    b1,b2,b3,b4,num,c1,c2,c3,c4,c5)
+        #print('encoding: %d %d %d %d -> %d -> %d %d %d %d %d' % (
+        #    b1,b2,b3,b4,num,c1,c2,c3,c4,c5))
         lastword = chr(c1+33) + chr(c2+33) + chr(c3+33) + chr(c4+33) + chr(c5+33)
         #write out most of the bytes.
         outstream.write(lastword[0:remainder_size + 1])
@@ -232,7 +234,7 @@ def _AsciiBase85Decode(input):
     stripped = string.replace(stripped,'z','!!!!!')
     # special rules apply if not a multiple of five bytes
     whole_word_count, remainder_size = divmod(len(stripped), 5)
-    #print '%d words, %d leftover' % (whole_word_count, remainder_size)
+    #print('%d words, %d leftover' % (whole_word_count, remainder_size))
     assert remainder_size != 1, 'invalid Ascii 85 stream!'
     cut = 5 * whole_word_count
     body, lastbit = stripped[0:cut], stripped[cut:]
@@ -271,8 +273,8 @@ def _AsciiBase85Decode(input):
         temp, b3 = divmod(temp,256)
         b1, b2 = divmod(temp, 256)
         assert  num == 16777216 * b1 + 65536 * b2 + 256 * b3 + b4, 'dodgy code!'
-        #print 'decoding: %d %d %d %d %d -> %d -> %d %d %d %d' % (
-        #    c1,c2,c3,c4,c5,num,b1,b2,b3,b4)
+        #print('decoding: %d %d %d %d %d -> %d -> %d %d %d %d' % (
+        #    c1,c2,c3,c4,c5,num,b1,b2,b3,b4))
 
         #the last character needs 1 adding; the encoding loses
         #data by rounding the number to x bytes, and when
@@ -305,14 +307,14 @@ def _wrap(input, columns=60):
 
 def _AsciiBase85Test(text='What is the average velocity of a sparrow?'):
     "Do the obvious test for whether Base 85 encoding works"
-    print 'Plain text:', text
+    print('Plain text:', text)
     encoded = _AsciiBase85Encode(text)
-    print 'Encoded:', encoded
+    print('Encoded:', encoded)
     decoded = _AsciiBase85Decode(encoded)
-    print 'Decoded:', decoded
+    print('Decoded:', decoded)
     if decoded == text:
-        print 'Passed'
+        print('Passed')
     else:
-        print 'Failed!'
+        print('Failed!')
 
 
