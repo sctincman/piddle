@@ -3,11 +3,11 @@
 # glPiddle.py
 #
 #####
-# 
+#
 # Copyright 1999 by David Ascher
-# 
+#
 #                         All Rights Reserved
-# 
+#
 # Permission to use, copy, modify, and distribute this software and its
 # documentation for any purpose and without fee is hereby granted,
 # provided that the above copyright notice appear in all copies and that
@@ -15,7 +15,7 @@
 # supporting documentation, and that the name of David Ascher not be
 # used in advertising or publicity pertaining to distribution of the
 # software without specific, written prior permission.
-# 
+#
 # DAVID ASCHER DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE,
 # INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS, IN NO
 # EVENT SHALL DAVID ASCHER BE LIABLE FOR ANY SPECIAL, INDIRECT OR
@@ -23,7 +23,7 @@
 # USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR
 # OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
 # PERFORMANCE OF THIS SOFTWARE.
-#                      
+#
 #####
 
 __version__ = 0.1 # public release -- Sep 28, 1999
@@ -84,7 +84,7 @@ class _GLCanvas(Canvas):
             self.tesselator = gluNewTess()
         self.defaultTransparency = 1.0
         Canvas.__init__(self, size=size, name=name)
-        
+
     def __setattr__(self, attribute, value):
         self.__dict__[attribute] = value
         if attribute == "defaultTransparency":
@@ -102,12 +102,12 @@ class _GLCanvas(Canvas):
         elif attribute == "defaultLineWidth":
             if not self._inList: self._startList()
             glLineWidth(value/5.0)
-        
+
     def __repr__(self):
         return '<GLCanvas at ' + str(id(self)) + '>'
-    
+
     __str__=__repr__
-    
+
     def clear(self):
         if self._inList: self._saveList()
         self._lists = []
@@ -120,7 +120,7 @@ class _GLCanvas(Canvas):
     def _saveList(self):
         glEndList()
         self._inList = 0
-        
+
     def _startList(self):
         list = glGenLists(1)
         self._lists.append(list)
@@ -151,7 +151,7 @@ class _GLCanvas(Canvas):
                 func, args, kw = list
                 apply(func, args, kw)
         glFlush()
-        
+
     def drawLine(self, x1,y1, x2,y2, color=None, width=None):
         "Draw a straight line between x1,y1 and x2,y2."
         if not self._inList: self._startList()
@@ -182,13 +182,13 @@ class _GLCanvas(Canvas):
         glVertex2f(x2, y2)
         glVertex2f(0,0)
         glEnd()
-        
-    def drawPolygon(self, pointlist, 
+
+    def drawPolygon(self, pointlist,
                     edgeColor=None, edgeWidth=None, fillColor=None, closed=0):
         """drawPolygon(pointlist) -- draws a polygon
         pointlist: a list of (x,y) tuples defining vertices
         closed: if 1, adds an extra segment connecting the last point
-                    to the first 
+                    to the first
         """
         if not self._inList: self._startList()
 
@@ -206,9 +206,9 @@ class _GLCanvas(Canvas):
                 for x,y in pointlist:
                     glVertex2f(x, y)
                 glEnd()
-	    #if self._inList: self._saveList()
-	    #self._lists.append(self._drawTess, (pointlist,), {})
-	    #self._startList()
+            #if self._inList: self._saveList()
+            #self._lists.append(self._drawTess, (pointlist,), {})
+            #self._startList()
         if edgeWidth is None:
             edgeWidth = self.defaultLineWidth
         if edgeColor is not transparent:
@@ -221,14 +221,14 @@ class _GLCanvas(Canvas):
             for x,y in pointlist:
                 glVertex2f(x, y)
             glEnd()
-    
+
 
     def _drawTess(self, pointlist):
         if _have_tesselator:
             gluTessNormal(self.tesselator, 0,0,1)
             gluTessProperty(self.tesselator,
-			    GLU_TESS_WINDING_RULE,
-			    GLU_TESS_WINDING_ODD)
+                            GLU_TESS_WINDING_RULE,
+                            GLU_TESS_WINDING_ODD)
             gluTessBeginPolygon(self.tesselator, combo)
             gluTessBeginContour(self.tesselator)
             for (x,y) in pointlist:
@@ -338,15 +338,15 @@ def getGLTTFontWrapper():
                 'helvetica': 'arial'}
 
         psfaces = {'arial': 'Helvetica',
-		   'arialbd': 'Helvetica-Bold',
-		   'ariali': 'Helvetica-Oblique',
-		   'cour': 'Courier',
-		   'courb': 'Courier-Bold',
-		   'times': 'Times-Roman',
-		   'timesbd': 'Times-Bold',
-		   'timesi': 'Times-Italic',
-		   'timesbi': 'Times-BoldItalic',
-		   'symbol': 'Symbol'}
+                   'arialbd': 'Helvetica-Bold',
+                   'ariali': 'Helvetica-Oblique',
+                   'cour': 'Courier',
+                   'courb': 'Courier-Bold',
+                   'times': 'Times-Roman',
+                   'timesbd': 'Times-Bold',
+                   'timesi': 'Times-Italic',
+                   'timesbi': 'Times-BoldItalic',
+                   'symbol': 'Symbol'}
 
         def __init__(self, font):
             bold=font.bold
@@ -452,7 +452,7 @@ try:
                 self.onKey(self, e.char, e.keysym)
 
     class ToglCanvas(_GLCanvas, RawOpengl, TkInteractive):
-        def __init__(self, size=(300,300), name='piddleGL', 
+        def __init__(self, size=(300,300), name='piddleGL',
                      master=None, double=1, depth=1,
                      **kw):
             width, height = size
@@ -473,7 +473,7 @@ try:
             w , h = e.width, e.height
             self.configure(width=w, height=h)
             self._width = w
-            self._height= h 
+            self._height= h
             Tkinter.Frame.configure(self)
 
         def redraw(self):
@@ -552,16 +552,16 @@ else:
 
 try:
     FontWrapper = firstTry()
-    FontSupport = 1 
+    FontSupport = 1
 except ImportError:
     try:
         FontWrapper = secondTry()
-        FontSupport = 1 
+        FontSupport = 1
     except ImportError:
         FontSupport = 0
 
 if _debug:
-    if FontSupport == 0:	
+    if FontSupport == 0:
         print "# Can't find font support"
     else:
         print "# Using fonts from:", FontWrapper.__name__
