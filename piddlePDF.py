@@ -13,6 +13,7 @@ self.pdf which offers numerous lower-level drawing routines.
 # except drawFigure, which doesn't behave like PostScript
 # paths so I left it unchanged.
 
+from __future__ import print_function
 
 #standard python library modules
 try:
@@ -614,9 +615,9 @@ class PDFCanvas(Canvas):
 ##        p1.close()
 ##        if closed:
 ##            p2.close()
-##            print 'closed edge path'
-##        print 'inner path p1:' + p1.getCode()
-##        print 'outer path p2:' + p2.getCode()
+##            print('closed edge path')
+##        print('inner path p1:' + p1.getCode())
+##        print('outer path p2:' + p2.getCode())
 ##
 ##        self._endPath(p1, transparent, fillColor)
 ##        self._endPath(p2, edgeColor, transparent)
