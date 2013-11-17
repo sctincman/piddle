@@ -45,6 +45,9 @@ Progress Reports:
         range between 0 and 1 -cwl
 
 """
+
+from __future__ import print_function
+
 ##  0.81    1999-10-13:
 ##
 ##
@@ -190,7 +193,7 @@ class Canvas:
         page.hasImages = self._currentPageHasImages
         page.pageTransitionString = self._pageTransitionString
         page.setCompression(self._pageCompression)
-        #print stream
+        #print(stream)
         page.setStream([self._preamble] + self._code)
         self._doc.addPage(page)
 
@@ -567,16 +570,16 @@ class Canvas:
         height are omitted, they are calculated from the image size.
         Also allow file names as well as images.  This allows a
         caching mechanism"""
-        # print "drawInlineImage: x=%s, y=%s, width = %s, height=%s " % (x,y, width, height)
+        # print("drawInlineImage: x=%s, y=%s, width = %s, height=%s " % (x,y, width, height))
         try:
             import Image
         except ImportError:
-            print 'Python Imaging Library not available'
+            print('Python Imaging Library not available')
             return
         try:
             import zlib
         except ImportError:
-            print 'zlib not available'
+            print('zlib not available')
             return
 
         self._currentPageHasImages = 1
@@ -701,7 +704,7 @@ class Canvas:
             x = struct.unpack('B', image.read(1))
             if x[0] == 0xFF:                        #found marker
                 x = struct.unpack('B', image.read(1))
-                #print "Marker: ", '%0.2x' % x[0]
+                #print("Marker: ", '%0.2x' % x[0])
                 #check marker type is acceptable and process it
                 if x[0] in validMarkers:
                     image.seek(2, 1)                #skip segment length
@@ -1056,4 +1059,4 @@ class PDFTextObject:
 
 
 if __name__ == '__main__':
-    print 'For test scripts, run testpdfgen.py'
+    print('For test scripts, run testpdfgen.py')
