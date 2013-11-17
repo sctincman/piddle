@@ -38,6 +38,8 @@ Joe Strout (joe@strout.net), September 1999
 #   The line color is stored in the QD fore color, and the fill color
 #   is stored in the back color -- fills are actually done by erasing.
 
+from __future__ import print_function
+
 from piddle import *
 import Qd
 import QuickDraw
@@ -131,7 +133,7 @@ class _QDCanvasWindow(W.Window):
     def do_activate(self, activate, event):
         global _curCanvas
         if _curCanvas == self.owner and not activate:
-            #print self.owner, "is no longer current"
+            #print(self.owner, "is no longer current")
             _curCanvas = None
 
     def do_contentclick(self, point, modifiers, event):
@@ -186,7 +188,7 @@ class QDCanvas( Canvas ):
             self._setFont(value)
 
     def __del__(self):
-        #print "Deleting", self
+        #print("Deleting", self)
         try: self._window.close()
         except: pass
         self._window = None
@@ -218,7 +220,7 @@ class QDCanvas( Canvas ):
 
         # and set the default drawing parameters, if we weren't the default before
         if Qd.GetPort() != self._port: # _curCanvas != self:
-            #print "setting port to", self
+            #print("setting port to", self)
             self._window.SetPort()
             _setForeColor(self.defaultLineColor)
             _setBackColor(self.defaultFillColor)
@@ -569,14 +571,14 @@ def test():
     #import Image
     #canvas.drawImage( Image.open(path), 0,0,300,300 );
 
-    def myOnClick(canvas,x,y): print "clicked %s,%s" % (x,y)
+    def myOnClick(canvas,x,y): print("clicked %s,%s" % (x,y))
     canvas.onClick = myOnClick
 
     def myOnOver(canvas,x,y): canvas.setInfoLine( "mouse is over %s,%s" % (x,y) )
 
     canvas.onOver = myOnOver
 
-    def myOnKey(canvas,key,mods): print "pressed %s with modifiers %s" % (key,mods)
+    def myOnKey(canvas,key,mods): print("pressed %s with modifiers %s" % (key,mods))
     canvas.onKey = myOnKey
 
 
