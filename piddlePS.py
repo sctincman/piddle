@@ -36,6 +36,7 @@ piddlePS - a PostScript backend for the PIDDLE drawing module
 #  DSC: plan uses flags for keeping track of BeginX/EndX pairs.
 #            convention: use flag _inXFlag
 
+from __future__ import print_function
 
 from piddle import *
 import string, cStringIO
@@ -149,7 +150,7 @@ class EpsDSC:
 """%%BeginPageSetup
 /pgsave save def
 """
-        # print pageSetupStr ???
+        # print(pageSetupStr)???
         return ret  + pageSetupStr  + "\n%%EndPageSetup"
 
     def EndPageStr(self):
@@ -813,10 +814,10 @@ translate
        try:
            import Image
        except ImportError:
-           print 'Python Imaging Library not available'
+           print('Python Imaging Library not available')
            return
        # For now let's start with 24 bit RGB images (following piddlePDF again)
-       print "Trying to drawImage in piddlePS"
+       print("Trying to drawImage in piddlePS")
        component_depth = 8
        myimage = image.convert('RGB')
        imgwidth, imgheight = myimage.size
@@ -826,7 +827,7 @@ translate
             y2 = y1 + imgheight
        drawwidth = x2 - x1
        drawheight = y2 - y1
-       print 'Image size (%d, %d); Draw size (%d, %d)' % (imgwidth, imgheight, drawwidth, drawheight)
+       print('Image size (%d, %d); Draw size (%d, %d)' % (imgwidth, imgheight, drawwidth, drawheight))
        # now I need to tell postscript how big image is
 
        # "image operators assume that they receive sample data from
@@ -895,24 +896,24 @@ translate
         try:
             import Image
         except ImportError:
-            print 'Python Imaging Library not available'
+            print('Python Imaging Library not available')
             return
                # I don't have zlib -cwl
 #         try:
 #             import zlib
 #         except ImportError:
-#             print 'zlib not available'
+#             print('zlib not available')
 #             return
 
 
         ### what sort of image are we to draw
         if image.mode=='L' :
-            print 'found image.mode= L'
+            print('found image.mode= L')
             imBitsPerComponent = 8
             imNumComponents = 1
             myimage = image
         elif image.mode == '1':
-            print 'found image.mode= 1'
+            print('found image.mode= 1')
             myimage = image.convert('L')
             imNumComponents = 1
             myimage = image
@@ -922,7 +923,7 @@ translate
             imBitsPerComponent = 8
 
         imwidth, imheight = myimage.size
-        # print 'imwidth = %s, imheight = %s' % myimage.size
+        # print('imwidth = %s, imheight = %s' % myimage.size)
         if not x2:
             x2 = imwidth + x1
         if not y2:
@@ -938,7 +939,7 @@ translate
             self.code.append('/DeviceRGB setcolorspace')
         elif imNumComponents == 1 :
             self.code.append('/DeviceGray setcolorspace')
-            print 'setting colorspace gray'
+            print('setting colorspace gray')
         # create the image dictionary
         self.code.append("""
 <<
