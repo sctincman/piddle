@@ -471,10 +471,10 @@ class AICanvas(Canvas):
             edgeWidth=None, fillColor=None, closed=0):
         start = pointlist[0]
         pointlist = pointlist[1:]
-        x1 = min(map(lambda (x,y) : x, pointlist))
-        x2 = max(map(lambda (x,y) : x, pointlist))
-        y1 = min(map(lambda (x,y) : y, pointlist))
-        y2 = max(map(lambda (x,y) : y, pointlist))
+        x1 = min(map(lambda x, y: x, pointlist))
+        x2 = max(map(lambda x, y: x, pointlist))
+        y1 = min(map(lambda x, y: y, pointlist))
+        y2 = max(map(lambda x, y: y, pointlist))
         self._updateFillColor(fillColor)
         self._updateLineWidth(edgeWidth)
         self._updateLineColor(edgeColor)
