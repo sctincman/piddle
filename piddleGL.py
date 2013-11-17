@@ -274,7 +274,7 @@ class _GLCanvas(Canvas):
             try:
                 import Image
             except ImportError:
-                raise ImportError, 'Saving to a non-PPM format is not available because PIL is not installed'
+                raise ImportError('Saving to a non-PPM format is not available because PIL is not installed')
             savefname = base+'.ppm'
             glSavePPM(savefname, self._width, self._height)
             i = Image.open(savefname)
@@ -498,7 +498,7 @@ try:
 except NameError:
     GLCanvas = GlutCanvas
 except NameError:
-    raise ImportError, "Couldn't get either GLUT or Togl loaded"
+    raise ImportError("Couldn't get either GLUT or Togl loaded")
 
 def getGLUTFontWrapper():
     class GLUTFontWrapper:
