@@ -3,6 +3,8 @@
 This module puts the various PIDDLE backends through their paces.
 """
 
+from __future__ import print_function
+
 import pagesizes
 from piddle import *
 import string
@@ -234,7 +236,7 @@ def tkTest(testfunc):
         import piddleTK
         import Tkinter
     except:
-        print "A module needed for piddleTK is not available, select another backend"
+        print("A module needed for piddleTK is not available, select another backend")
         return
 
     root = Tkinter.Tk()
@@ -273,7 +275,7 @@ def tkTest(testfunc):
     elif testfunc == rotstring:
         drawRotstring(tkcanvas)
     else:
-        print "Illegal testfunc handed to tkTest"
+        print("Illegal testfunc handed to tkTest")
         raise Exception("Unsupported testfunc")
 
     tkcanvas.flush()
@@ -287,7 +289,7 @@ def wxTest(testfunc):
         import piddleWX
         from wxPython.wx import wxApp
     except:
-        print "A module needed for piddleWX is not available, select another backend"
+        print("A module needed for piddleWX is not available, select another backend")
         return
 
         global wx_app
@@ -336,7 +338,7 @@ def runtest(backend, testfunc):
     elif backend == 'piddleVCR':
         filename = canvas.name + ".vcr"
         canvas.save(filename)
-        print filename, "saved"
+        print(filename, "saved")
     else:     # if backend == 'piddlePS' or backend== 'piddlePDF':
         canvas.save()  # should be "pass'ed" by Canvas's that don't use save
 
@@ -347,7 +349,7 @@ def mainLoop():
     test = None
 
     while 1:
-        # print backends on left, tests on right, indicate chosen one of each
+        # print(backends on left, tests on right, indicate chosen one of each)
         i = 0
         while i < len(backends) or i < len(tests):
             try: bstr = str(i+1) + '. ' + backends[i]
@@ -358,12 +360,12 @@ def mainLoop():
             else: bflag = ''
             if i == test: tflag = '==>'
             else: tflag = ''
-            print "%10s %-20s %10s %-20s" % (bflag, bstr, tflag, tstr)
+            print("%10s %-20s %10s %-20s" % (bflag, bstr, tflag, tstr))
             i = i+1
-        print
+        print()
 
         inp = raw_input("Selection (0 to exit): ")
-        print
+        print()
 
         if inp == '0': return
         if inp:
@@ -375,17 +377,17 @@ def mainLoop():
                 backend = int(backinp)-1
                 if backend < len(backends):
                     docstr = __import__(backends[backend]).__doc__
-                    if docstr: print docstr
-                    else: print "<no doc string>"
+                    if docstr: print(docstr)
+                    else: print("<no doc string>")
                 else: backend = None
             if testinp:
                 test = ord(string.upper(testinp[0])) - ord('A')
                 if test >= 0 and test < len(tests):
                     docstr = tests[test].__doc__
                     if docstr:
-                        print docstr
+                        print(docstr)
                 else: test = None
-        print
+        print()
 
         # now, if we have a valid backend and test, run it
         if backend != None and test != None:
