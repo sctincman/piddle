@@ -413,7 +413,7 @@ class FIGCanvas(Canvas):
         self._drawPolygon(pointlist, color, width, self.defaultFillColor, 0,
                           self.NotFilled)
 
-    def drawPolygon(self, pointlist, 
+    def drawPolygon(self, pointlist,
                     edgeColor=None, edgeWidth=None, fillColor=None, closed=0):
         """Draw a set of joined-up line segments.
 
@@ -436,7 +436,7 @@ class FIGCanvas(Canvas):
         self._drawPolygon(pointlist, edgeColor, edgeWidth, fillColor, closed,
                           self.Filled)
 
-    def _drawPolygon(self, pointlist, 
+    def _drawPolygon(self, pointlist,
                      edgeColor, edgeWidth, fillColor, closed,
                      filled):
         if closed:
