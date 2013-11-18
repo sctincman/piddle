@@ -21,7 +21,7 @@ def _pixels_per_point():
     """Return the number of pixels for each typographer's point."""
     #
     # This is a function instead of a computed constant so that we
-    # don't have to actually initialize _gkt, allowing the application 
+    # don't have to actually initialize _gkt, allowing the application
     # to control that if needed.  It simply needs to be done before
     # this can be used.
     #
@@ -120,7 +120,7 @@ class BasicCanvas(piddle.Canvas):
             return
         angle = int(round(angle))
         if angle != 0:
-            raise NotImplementedError, "rotated text not implemented"
+            raise NotImplementedError("rotated text not implemented")
         if font is None:
             font = self.defaultFont
         lines = string.split(s, "\n")
@@ -163,7 +163,7 @@ class BasicCanvas(piddle.Canvas):
     def drawPolygon(self, pointlist, edgeColor=None, edgeWidth=None,
                     fillColor=None, closed=0):
         if len(pointlist) < 3:
-            raise ValueError, "too few points in the point list"
+            raise ValueError("too few points in the point list")
         # XXX lots more should be checked
         if edgeColor is None:
             edgeColor = self.defaultLineColor
@@ -227,7 +227,7 @@ class BasicCanvas(piddle.Canvas):
     def ensure_size(self, width, height):
         # like __ensure_size(), but doesn't return buffer
         if (width <= 0) or (height <= 0):
-            raise ValueError, "width and height must both be positive"
+            raise ValueError("width and height must both be positive")
         self.__ensure_size(width, height)
 
 
