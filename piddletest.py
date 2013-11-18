@@ -234,7 +234,10 @@ def tkTest(testfunc):
     # piddleTK tests are called from here because need TK's event loop
     try :
         import piddleTK
-        import Tkinter
+        try:
+            import tkinter as Tkinter
+        except ImportError:
+            import Tkinter
     except:
         print("A module needed for piddleTK is not available, select another backend")
         return
