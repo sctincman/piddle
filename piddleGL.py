@@ -432,7 +432,10 @@ except NameError:
     pass
 
 try:
-    import Tkinter
+    try:
+        import tkinter as Tkinter
+    except ImportError:
+        import Tkinter
     from OpenGL.Tk import RawOpengl
     class TkInteractive:
         def __init__(self):
