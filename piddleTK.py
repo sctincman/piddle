@@ -15,13 +15,14 @@ You can find the latest version of this file:
     via http://piddle.sourceforge.net
 """
 
-import piddle 
 import string
 try:
     import tkinter as Tkinter
     import tkinter.font as tkFont
 except ImportError:
     import Tkinter, tkFont
+
+from . import piddle
 
 __version__ = "0.3"
 __date__    = "April 8, 1999"
@@ -375,7 +376,7 @@ class BaseTKCanvas(piddle.Canvas):
 
 
 try :
-    import piddlePIL
+    from . import piddlePIL
 
     class TKCanvas(piddlePIL.PILCanvas):
 
