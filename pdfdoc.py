@@ -35,12 +35,10 @@ try:
 except:
     Log.write("zlib not available, page compression not available\n")
 
-
-from pdfgeom import bezierArc
-
-import pdfutils
-from pdfutils import LINEEND   # this constant needed in both
-import pdfmetrics
+from . import pdfutils
+from . import pdfmetrics
+from .pdfutils import LINEEND   # this constant needed in both
+from .pdfgeom import bezierArc
 
 ##############################################################
 #
