@@ -20,7 +20,8 @@ see also piddleWxDcDemo.py
 from __future__ import print_function
 
 from wxPython.wx import *
-import piddle
+
+from . import piddle
 
 
 class PiddleWxDc(piddle.Canvas):
