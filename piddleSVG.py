@@ -46,11 +46,12 @@ Greg Landrum (greglandrum@earthlink.net) 3/10/2000
 
 """
 
-from piddle import *
-import pdfmetrics # for font info
 import string, os, types
 
 from math import *
+
+from . import pdfmetrics # for font info
+from .piddle import *
 
 SVG_HEADER = """<?xml version="1.0" encoding="iso-8859-1"?>
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 03December 1999//EN"
