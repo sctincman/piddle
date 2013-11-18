@@ -27,11 +27,13 @@ Joe Strout (joe@strout.net), 10/26/99
 
 ###  6/22/99: updated drawString to handle non-integer x and y
 
-from piddle import *
 import Image
 import string
 
 import os, sys
+
+from .piddle import *
+
 Log =  sys.stderr
 
 if __name__ == '__main__':
@@ -447,7 +449,7 @@ def test2():
     testit( canvas, "Foogar", 20, 240, font=Font(face='courier') )
 
 
-    import piddleQD
+    from . import piddleQD
     global qdcanvas
     try:
         qdcanvas.close()
