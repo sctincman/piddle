@@ -22,7 +22,10 @@ from piddle import *
 import aigen
 import string
 import zlib
-import cStringIO
+try:
+    from io import StringIO as cStringIO
+except ImportError:
+    import cStringIO
 
 from math import sin, cos, pi, ceil
 
