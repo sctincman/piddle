@@ -20,10 +20,10 @@ Also note that the max number of colours is 512, due to a .fig limitation.
 #    every object plotted?
 #   could use default colours
 
-from piddle import *
-import piddlePSmetrics
 import math, string, re, os
 
+from . import piddlePSmetrics
+from .piddle import *
 
 degrees = math.pi / 180
 # XXX should just use bp all the time, even for text?  not clear from piddle
@@ -242,7 +242,7 @@ class FIGCanvas(Canvas):
     # into the colors dictionary.
 
     #Default = (-1)
-    from piddle import black, white, red, green ,blue, darkblue, lightblue, \
+    from .piddle import black, white, red, green ,blue, darkblue, lightblue, \
          cyan, darkcyan, lightcyan, magenta, darkmagenta, yellow, gold
     default_colors = [
         (black, 0), (white, 7),
