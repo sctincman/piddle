@@ -146,7 +146,6 @@ def onKey(canvas, key, modifiers):
     canvas.setInfoLine("onKey(%s, %s)" % (`key`, modifiers))
 
 
-
 class StringTester:
     def __init__(self, canvasClass, name):
         self.canvas = canvasClass(size=(560,400), name=name, infoline=0)
@@ -196,12 +195,12 @@ class StringTester:
 
         canvas.drawLine(cx-w/2, y, cx+w/2, y, color=piddle.red)
         canvas.drawString(s, cx-w/2, y)
-        canvas.defaultLineColor = Color(0.7,0.7,1.0)	# light blue
-        canvas.drawLine(cx-w/2, y-20, cx-w/2, y+20)	# left
-        canvas.drawLine(cx+w/2, y-20, cx+w/2, y+20)	# right
+        canvas.defaultLineColor = Color(0.7,0.7,1.0)          # light blue
+        canvas.drawLine(cx-w/2, y-20, cx-w/2, y+20)           # left
+        canvas.drawLine(cx+w/2, y-20, cx+w/2, y+20)           # right
         asc, desc = canvas.fontAscent(), canvas.fontDescent()
-        canvas.drawLine(cx-w/2-20, y-asc, cx+w/2+20, y-asc)	# top
-        canvas.drawLine(cx-w/2-20, y+desc, cx+w/2+20, y+desc)	# bottom
+        canvas.drawLine(cx-w/2-20, y-asc, cx+w/2+20, y-asc)   # top
+        canvas.drawLine(cx-w/2-20, y+desc, cx+w/2+20, y+desc) # bottom
 
 
 class TextDisplay:
