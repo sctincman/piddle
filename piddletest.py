@@ -5,10 +5,11 @@ This module puts the various PIDDLE backends through their paces.
 
 from __future__ import print_function
 
-import pagesizes
-from piddle import *
 import string
 import math
+
+from . import pagesizes
+from .piddle import *
 
 backends = ['piddlePDF','piddlePIL','piddleVCR','piddleTK',
             'piddlePS','piddleAI','piddleQD','piddleGL', 'piddleWX']
@@ -233,7 +234,7 @@ def drawRotstring(canvas):
 def tkTest(testfunc):
     # piddleTK tests are called from here because need TK's event loop
     try :
-        import piddleTK
+        from . import piddleTK
         try:
             import tkinter as Tkinter
         except ImportError:
@@ -289,7 +290,7 @@ def tkTest(testfunc):
 #----------------------------------------------------------------------
 def wxTest(testfunc):
     try :
-        import piddleWX
+        from . import piddleWX
         from wxPython.wx import wxApp
     except:
         print("A module needed for piddleWX is not available, select another backend")
