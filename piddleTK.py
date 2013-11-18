@@ -15,9 +15,13 @@ You can find the latest version of this file:
     via http://piddle.sourceforge.net
 """
 
-import Tkinter, tkFont
 import piddle 
 import string
+try:
+    import tkinter as Tkinter
+    import tkinter.font as tkFont
+except ImportError:
+    import Tkinter, tkFont
 
 __version__ = "0.3"
 __date__    = "April 8, 1999"
