@@ -292,7 +292,7 @@ class BaseTKCanvas(tk.Canvas, piddle.Canvas):
         temppen.setink( (255,255,255) )
         pilfont = pp._pilFont(font)
 
-        if not pilfont: raise "bad font!", font
+        if not pilfont: raise Exception("bad font!" + font)
 
         temppen.setfont( pilfont )
         pos = [4, int(tempsize/2 - pilCan.fontAscent(font)) - pilCan.fontDescent(font)]
