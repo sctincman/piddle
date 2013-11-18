@@ -39,8 +39,12 @@ piddlePS - a PostScript backend for the PIDDLE drawing module
 from __future__ import print_function
 
 from piddle import *
-import string, cStringIO
 import piddlePSmetrics # for font info
+try:
+    from io import StringIO as cStringIO
+except ImportError:
+    import cStringIO
+import string
 import math
 
 linesep = '\n'
