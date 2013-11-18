@@ -118,7 +118,7 @@ def font_mapping(canvasClass):
         key = piddleGTK.core._font_to_key(font)
         xlfd = piddleGTK.core._fontkey_to_xlfd(key)
         f.write("%s\n" % font)
-        f.write("    %s\n" % `key`)
+        f.write("    %s\n" % repr(key))
         f.write("    %s\n\n" % xlfd)
     # just have to have a .flush() method:
     return f
@@ -143,7 +143,8 @@ def onOver(canvas, x, y):
     canvas.setInfoLine("onOver(%s, %s)" % (x, y))
 
 def onKey(canvas, key, modifiers):
-    canvas.setInfoLine("onKey(%s, %s)" % (`key`, modifiers))
+    canvas.setInfoLine("onKey(%s, %s)" % (repr(key), modifiers))
+
 
 
 class StringTester:
