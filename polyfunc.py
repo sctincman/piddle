@@ -279,7 +279,7 @@ def runtest():
                        uWidth= my_uWidth,
                        uHeight= my_uHeight)
 
-    import piddlePS
+    from . import piddlePS
 
     canvas = piddlePS.PSCanvas((400,400), 'qtest.ps')
 
@@ -311,13 +311,13 @@ def runtest():
 
     # now send it to a PIL canvas (this works on my machine but commented out because pil
     #                              may not be working on your machine-cwl )
-    #import piddlePIL
+    #from . import piddlePIL
     #canvas = piddlePIL.PILCanvas(size=(400,400), name='qtest.png')
     #ToCanvas(canvas,frame)
 
 
 if __name__== '__main__':
     print('Running test drawing assorted quadratics to qtest.ps')
-    import piddle
+    from . import piddle
     runtest()
 
