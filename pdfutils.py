@@ -6,7 +6,10 @@ from __future__ import print_function
 import os
 import sys
 import string
-import cStringIO
+try:
+    from io import StringIO as cStringIO
+except ImportError:
+    import cStringIO
 
 LINEEND = '\015\012'
 
