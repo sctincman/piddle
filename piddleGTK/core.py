@@ -3,6 +3,9 @@
 The real documentation is in piddleGTK.
 
 """
+
+from __future__ import print_function
+
 __author__ = "Fred L. Drake, Jr.  <fdrake@acm.org>"
 __version__ = '$Revision: 1.1 $'
 
@@ -303,7 +306,7 @@ def _font_to_gdkfont(font):
     try:
         return _xlfd_to_gdkfont(xlfd)
     except RuntimeError:
-        print "failed to load", xlfd
+        print("failed to load", xlfd)
         raise
 
 
