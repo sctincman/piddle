@@ -57,7 +57,10 @@ import sys
 import string
 import time
 import tempfile
-import cStringIO
+try:
+    from io import StringIO as cStringIO
+except ImportError:
+    import cStringIO
 from types import *
 from math import sin, cos, tan, pi, ceil
 
