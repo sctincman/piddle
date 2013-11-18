@@ -38,9 +38,10 @@ StringFormat XML characters
 
 from __future__ import print_function
 
-from piddle import *
 import xmllib
 import math
+
+from .piddle import *
 
 #------------------------------------------------------------------------
 # constants
@@ -381,7 +382,7 @@ def drawString( canvas, s, x, y, font=None, color=None, angle=0):
 #------------------------------------------------------------------------
 # Testing
 #------------------------------------------------------------------------
-import piddlePDF
+from . import piddlePDF
 
 def test1():
     canvas = piddlePDF.PDFCanvas('test1.pdf')
