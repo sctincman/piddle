@@ -40,7 +40,6 @@ Joe Strout (joe@strout.net), September 1999
 
 from __future__ import print_function
 
-from piddle import *
 import Qd
 import QuickDraw
 import Scrap
@@ -50,6 +49,8 @@ import Events
 import Evt
 import string
 from types import *
+
+from .piddle import *
 
 # utility functions
 def _setForeColor(c):
