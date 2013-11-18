@@ -85,7 +85,7 @@ from __future__ import print_function
 
 from wxPython.wx import *
 
-from piddleWxDc import PiddleWxDc
+from .piddleWxDc import PiddleWxDc
 
 __version__ = "1.0"
 __date__    = "February 6, 2000"
