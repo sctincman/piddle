@@ -48,9 +48,11 @@ from __future__ import print_function
 
 VERSION = 0.1
 
-from piddle import *
-from types import *
 import string
+
+from types import *
+
+from .piddle import *
 
 # internal utility functions
 def _repr(x):
@@ -247,7 +249,7 @@ class VCRCanvas( Canvas ):
 
 
 def test1():
-    import piddlePS
+    from . import piddlePS
     canvas = piddlePS.PSCanvas()
     vcr = VCRCanvas(canvas)
     vcr.defaultLineWidth = 3
@@ -264,7 +266,7 @@ def test2():
     vcr.load(f)
     f.close()
 
-    import piddlePS
+    from . import piddlePS
     canvas2 = piddlePS.PSCanvas()
     vcr.playBack(canvas2)
     canvas2.flush()
