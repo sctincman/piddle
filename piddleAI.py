@@ -18,8 +18,6 @@ BB 28/09/99 Added Rewrote drawEllipse, drawroundRect and drawArc to use drawBezi
 
 from __future__ import print_function
 
-from piddle import *
-import aigen
 import string
 import zlib
 try:
@@ -28,6 +26,9 @@ except ImportError:
     import cStringIO
 
 from math import sin, cos, pi, ceil
+
+from . import aigen
+from .piddle import *
 
 author = 'Me'
 pageSize = (595, 842) #A4
