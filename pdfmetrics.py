@@ -86,9 +86,13 @@ def parseAFMfile(filename):
     return widths
 
 
-class FontCache:
-    """Loads and caches font width information on demand.  Font names
-    converted to lower case for indexing.  Public interface is stringwidth"""
+
+class FontCache(object):
+    """Load and cache font width information on demand.
+
+    Font names converted to lower case for indexing.
+    Public interface is stringwidth.
+    """
     def __init__(self):
         global widths
         self.__widtharrays = widths
