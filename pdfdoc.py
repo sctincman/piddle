@@ -60,7 +60,9 @@ AFMDIR = '.'
 
 A4 = (595.27,841.89)   #default page size
 
-class PDFDocument:
+
+
+class PDFDocument(object):
     """Responsible for linking and writing out the whole document.
     Builds up a list of objects using add(key, object).  Each of these
     must inherit from PDFObject and be able to write itself into the file.
@@ -258,7 +260,7 @@ class PDFDocument:
 #
 ##############################################################
 
-class OutputGrabber:
+class OutputGrabber(object):
     """At times we need to put something in the place of standard
     output.  This grabs stdout, keeps the data, and releases stdout
     when done.
@@ -300,16 +302,16 @@ def testOutputGrabber():
 #
 ##############################################################
 
+class PDFObject(object):
+    """Base class for all PDF objects.
 
-
-class PDFObject:
-    """Base class for all PDF objects.  In PDF, precise measurement
-    of file offsets is essential, so the usual trick of just printing
-    and redirecting output has proved to give different behaviour on
-    Mac and Windows.  While it might be soluble, I'm taking charge
+    In PDF, precise measurement of file offsets is essential, so the usual
+    trick of just printing and redirecting output has proved to give different
+    behaviour on Mac and Windows. While it might be soluble, I'm taking charge
     of line ends at the binary level and explicitly writing to a file.
-    The LINEEND constant lets me try CR, LF and CRLF easily to help
-    pin down the problem."""
+    The LINEEND constant lets me try CR, LF and CRLF easily to help pin down
+    the problem.
+    """
     def save(self, file):
         "Save its content to an open file"
         file.write('% base PDF object' + LINEEND)
