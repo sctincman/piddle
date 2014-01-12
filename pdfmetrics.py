@@ -105,6 +105,7 @@ class FontCache(object):
         widths = parseAFMfile(filename)
         self.__widtharrays[fontname] = widths
 
+
     def getfont(self, fontname):
         try:
             return self.__widtharrays[fontname]
@@ -125,13 +126,15 @@ class FontCache(object):
             w = w + widths[ord(char)]
         return w
 
+
     def status(self):
         #returns loaded fonts
         return self.__widtharrays.keys()
+
+
 
 TheFontCache = FontCache()
 
 #expose the singleton as a single function
 stringwidth = TheFontCache.stringwidth
-
 
