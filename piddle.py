@@ -105,7 +105,7 @@ cm = inch/2.54   # more sensible measurement unit
 #-------------------------------------------------------------------------
 # StateSaver
 #-------------------------------------------------------------------------
-class StateSaver:
+class StateSaver(object):
     """This is a little utility class for saving and restoring the
     default drawing parameters of a canvas.  To use it, add a line
     like this before changing any of the parameters:
@@ -131,7 +131,7 @@ class StateSaver:
 #-------------------------------------------------------------------------
 # Color
 #-------------------------------------------------------------------------
-class Color:
+class Color(object):
     """This class is used to represent color.  Components red, green, blue
     are in the range 0 (dark) to 1 (full intensity)."""
 
@@ -345,7 +345,7 @@ transparent = Color(-1, -1, -1)
 #-------------------------------------------------------------------------
 # Font
 #-------------------------------------------------------------------------
-class Font:
+class Font(object):
     "This class represents font typeface, size, and style."
 
     def __init__(self, size=12, bold=0, italic=0, underline=0, face=None):
@@ -408,7 +408,7 @@ modControl = 2      # control key was also held
 #-------------------------------------------------------------------------
 # Canvas
 #-------------------------------------------------------------------------
-class Canvas:
+class Canvas(object):
     """This is the base class for a drawing canvas.  The 'plug-in renderers'
     we speak of are really just classes derived from this one, which implement
     the various drawing methods."""
@@ -764,7 +764,7 @@ def getFileObject(file):
     return fileobj
 
 
-class AffineMatrix:
+class AffineMatrix(object):
     # A = [ a c e]
     #     [ b d f]
     #     [ 0 0 1]
@@ -801,14 +801,4 @@ class AffineMatrix:
         self.A  = [ self.A[0], self.A[1], self.A[2], self.A[3],
                     self.A[0]*tx + self.A[2]*ty + self.A[4],
                     self.A[1]*tx + self.A[3]*ty + self.A[5] ]
-
-
-
-
-
-
-
-
-
-
 
