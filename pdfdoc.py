@@ -46,8 +46,6 @@ from .pdfgeom import bezierArc
 #
 ##############################################################
 
-
-
 StandardEnglishFonts = [
     'Courier', 'Courier-Bold', 'Courier-Oblique', 'Courier-BoldOblique',
     'Helvetica', 'Helvetica-Bold', 'Helvetica-Oblique',
@@ -254,6 +252,8 @@ class PDFDocument(object):
         fontnames.sort()
         return fontnames
 
+
+
 ##############################################################
 #
 #            Utilities
@@ -296,6 +296,7 @@ def testOutputGrabber():
     print('Data...', data)
 
 
+
 ##############################################################
 #
 #            PDF Object Hierarchy
@@ -315,14 +316,19 @@ class PDFObject(object):
     def save(self, file):
         "Save its content to an open file"
         file.write('% base PDF object' + LINEEND)
+
+
     def printPDF(self):
         self.save(sys.stdout)
+
 
 
 class PDFLiteral(PDFObject):
     " a ready-made one you wish to quote"
     def __init__(self, text):
         self.text = text
+
+
     def save(self, file):
         file.write(self.text + LINEEND)
 
@@ -339,8 +345,11 @@ class PDFCatalog(PDFObject):
                         '>>'
                         ],LINEEND
                         )
+
+
     def save(self, file):
         file.write(self.template % (self.RefPages, self.RefOutlines) + LINEEND)
+
 
 
 class PDFInfo(PDFObject):
@@ -354,6 +363,7 @@ class PDFInfo(PDFObject):
 
         now = time.localtime(time.time())
         self.datestr = '%04d%02d%02d%02d%02d%02d' % tuple(now[0:6])
+
 
     def save(self, file):
         file.write(string.join([
@@ -382,14 +392,18 @@ class PDFOutline(PDFObject):
                 '/Count 0',
                 '>>'],
                 LINEEND)
+
+
     def save(self, file):
         file.write(self.template + LINEEND)
+
 
 
 class PDFPageCollection(PDFObject):
     "presumes PageList attribute set (list of integers)"
     def __init__(self):
         self.PageList = []
+
 
     def save(self, file):
         lines = [ '<<',
@@ -403,6 +417,7 @@ class PDFPageCollection(PDFObject):
         lines.append('>>')
         text = string.join(lines, LINEEND)
         file.write(text + LINEEND)
+
 
 
 class PDFPage(PDFObject):
@@ -495,6 +510,8 @@ class PDFStream(PDFObject):
         file.write(data_to_write + LINEEND)
         file.write('endstream' + LINEEND)
 
+
+
 class PDFImage(PDFObject):
     # sample one while developing.  Currently, images go in a literals
     def save(self, file):
@@ -519,6 +536,8 @@ class PDFImage(PDFObject):
                 'endobj'
                 ], LINEEND) + LINEEND)
 
+
+
 class PDFType1Font(PDFObject):
     def __init__(self, key, font):
         self.fontname = font
@@ -532,13 +551,10 @@ class PDFType1Font(PDFObject):
                     '/Encoding /MacRomanEncoding',
                     '>>'],
                     LINEEND)
+
+
     def save(self, file):
         file.write(self.template % (self.keyname, self.fontname) + LINEEND)
-
-
-
-
-
 
 
 
@@ -558,6 +574,7 @@ def MakeType1Fonts():
         pos = pos + 1
     return fonts
 
+
 def MakeFontDictionary(startpos, count):
     "returns a font dictionary assuming they are all in the file from startpos"
     dict = "  <<" + LINEEND
@@ -566,6 +583,7 @@ def MakeFontDictionary(startpos, count):
         dict = dict + '\t\t/F%d %d 0 R ' % (i + 1, startpos + i) + LINEEND
     dict = dict + "\t\t>>" + LINEEND
     return dict
+
 
 if __name__ == '__main__':
     print('For test scripts, run test1.py to test6.py')
