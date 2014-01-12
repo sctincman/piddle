@@ -96,9 +96,10 @@ greekchars = {
 }
 
 #------------------------------------------------------------------------
-class StringSegment:
-    """class StringSegment contains the intermediate representation of string
-    segments as they are being parsed by the XMLParser.
+class StringSegment(object):
+    """Contain the intermediate representation of string segments.
+
+    As they are being parsed by the XMLParser.
     """
 
     def __init__(self):
