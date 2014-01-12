@@ -56,7 +56,7 @@ __author__  = "Perry Stoll,  perry.stoll@mail.com "
 # ToDo:
 #   - document special access methods
 
-class FontManager:
+class FontManager(object):
     __alt_faces = { "serif": "Times",
                     "sansserif": "Helvetica",
                     "monospaced": "Courier"}
