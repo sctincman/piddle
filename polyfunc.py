@@ -100,7 +100,7 @@ def cubicPts(xinterval,  A=0., B=0., C=0., D=0):
             v[0][3], v[1][3])
 
 
-class AffineMatrix:
+class AffineMatrix(object):
     # taken from PyArt
     # use this for transforming vpaths and bpaths, can also be used to set gstate.CTM
     # A = [ a c e]
@@ -181,7 +181,7 @@ class AffineMatrix:
 
 
 
-class CoordFrame:
+class CoordFrame(object):
     # Essentially this identifies a target rectangle on the canvas
     # in which to draw and allows me to rescale the coordinates (u is for user coordinates)
     # within the box for my convenience when plotting
