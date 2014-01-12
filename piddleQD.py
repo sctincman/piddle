@@ -74,14 +74,17 @@ _fontMap['serif'] = Fonts.kFontIDNewYork
 _fontMap['sansserif'] = Fonts.kFontIDGeneva
 
 # utility classes
-class _PortSaver:
+class _PortSaver(object):
 
     def __init__(self, qdcanvas):
         self.port = Qd.GetPort()
         Qd.SetPort(qdcanvas._window.wid)
 
+
     def __del__(self):
         Qd.SetPort(self.port)
+
+
 
 class _QDCanvasWindow(W.Window):
     "This internally-used class implements the window in which QDCanvas draws."
