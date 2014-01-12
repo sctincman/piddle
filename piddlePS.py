@@ -121,7 +121,7 @@ end
     return latin1FontTemplate % (fontname, fontname)
 
 
-class EpsDSC:
+class EpsDSC(object):
 
     # remeber %% will be reduced to % when using string substitution
     # returned strings do not end with \n
