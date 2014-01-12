@@ -594,10 +594,12 @@ class AIObject(object):
         print('% base AI object')
 
 
+
 class AILiteral(AIObject):
-    " a ready-made one you wish to quote"
+
     def __init__(self, text):
         self.text = text
+
     def printAI(self):
         print(self.text)
 
@@ -614,6 +616,8 @@ class AICatalog(AIObject):
     def printAI(self):
         print(self.template % (self.RefPages, self.RefOutlines))
 
+
+
 class AIHeader(AIObject):
     # no features implemented yet
     def __init__(self):
@@ -624,6 +628,7 @@ class AIHeader(AIObject):
         self.rulerUnits = 2
         now = time.localtime(time.time())
         self.datestr = time.strftime("%x %I:%M %p", now)
+
 
     def printAI(self):
         print("%!PS-Adobe-3.0")
@@ -648,23 +653,32 @@ class AIHeader(AIObject):
         print('%%EndComments')
 
 
+
 class AIProlog(AIObject):
     "null outline, does nothing yet"
     def __init__(self):
         self.FontList = []
+
+
     def printAI(self):
         print('%%BeginProlog')
         print('%%EndProlog')
+
+
 
 class AISetUp(AIObject):
     "null outline, does nothing yet"
     def __init__(self):
         self.FontList = []
+
+
     def printAI(self):
         print('%%BeginSetup')
         if self.FontList:
             pass
         print('%%EndSetup')
+
+
 
 class AIPageCollection(AIObject):
     "presumes PageList attribute set (list of integers)"
@@ -676,6 +690,8 @@ class AIPageCollection(AIObject):
             result = result + str(page) + ' 0 R '
         result = result + ']\n>>'
         print(result)
+
+
 
 #class AIBody(AIObject):
 #    """The Bastard.  Needs list of Resources etc. Use a standard one for now.
@@ -808,6 +824,8 @@ class AIStream(AIObject):
             page.append(line)
         return string.join(page, '\n')
 
+
+
 class AIImage(AIObject):
     def printAI(self):
         print("""<<
@@ -829,6 +847,8 @@ B2BBC2 BB6F84 31BFC2 18EA3C 0E3E00 07FC00 03F800
 endstream
 endobj""")
 
+
+
 class AIType1Font(AIObject):
     def __init__(self, key, font):
         self.fontname = font
@@ -840,16 +860,16 @@ class AIType1Font(AIObject):
 /BaseFont /%s
 /Encoding /WinAnsiEncoding
 >>"""
+
+
     def printAI(self):
         print(self.template % (self.keyname, self.fontname))
+
+
 
 class AIProcSet(AIObject):
     def printAI(self):
         print("[/AI /Text]")
-
-
-
-
 
 
 
@@ -868,6 +888,7 @@ def MakeType1Fonts():
         fonts.append(font)
         pos = pos + 1
     return fonts
+
 
 def MakeFontDictionary(startpos, count):
     "returns a font dictionary assuming they are all in the file from startpos"
