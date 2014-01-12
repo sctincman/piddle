@@ -101,7 +101,7 @@ closeFillStroke = 'b'
 eoFillStroke = 'B*'
 closeEoFillStroke = 'b*'
 
-class Canvas:
+class Canvas(object):
     """This is a low-level interface to the PDF file format.  The plan is to
     expose the whole pdfgen API through this.  Its drawing functions should have a
     one-to-one correspondence with PDF functionality.  Unlike PIDDLE, it thinks
@@ -806,10 +806,7 @@ class Canvas:
 
 
 
-
-
-
-class PDFPathObject:
+class PDFPathObject(object):
     """Represents a graphic path.  There are certain 'modes' to PDF
     drawing, and making a separate object to expose Path operations
     ensures they are completed with no run-time overhead.  Ask
@@ -881,7 +878,7 @@ class PDFPathObject:
         self._code.append('h')
 
 
-class PDFTextObject:
+class PDFTextObject(object):
     """PDF logically separates text and graphics drawing; you can
     change the coordinate systems for text and graphics independently.
     If you do drawings while in text mode, they appear in the right places
@@ -1056,8 +1053,6 @@ class PDFTextObject:
             else:
                 self._y = self._y + self._leading
         self._x = self._x0
-
-
 
 
 
