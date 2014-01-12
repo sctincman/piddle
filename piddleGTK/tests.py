@@ -147,7 +147,7 @@ def onKey(canvas, key, modifiers):
 
 
 
-class StringTester:
+class StringTester(object):
     def __init__(self, canvasClass, name):
         self.canvas = canvasClass(size=(560,400), name=name, infoline=0)
         self.curs = [10, 10]
@@ -204,7 +204,7 @@ class StringTester:
         canvas.drawLine(cx-w/2-20, y+desc, cx+w/2+20, y+desc) # bottom
 
 
-class TextDisplay:
+class TextDisplay(object):
     def __init__(self, title):
         top = gtk.GtkDialog()
         top.set_title(title)
@@ -235,7 +235,7 @@ class TextDisplay:
         self.__text.thaw()
 
 
-class Test:
+class Test(object):
     def __init__(self, test):
         self.test = test
 
