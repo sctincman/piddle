@@ -60,7 +60,7 @@ _pmElemOffset = {
     'pmReserved':46
 }
 
-class PixMapWrapper:
+class PixMapWrapper(object):
     """PixMapWrapper -- wraps the QD PixMap object in a Python class,
     with methods to easily get/set various pixmap fields.  Note: Use the
     PixMap() method when passing to QD calls."""
