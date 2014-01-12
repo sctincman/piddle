@@ -14,8 +14,11 @@ Known Problems:
 You can find the latest version of this file:
     via http://piddle.sourceforge.net
 """
-
-import Tkinter, tkFont
+try:
+    import tkinter as Tkinter
+    import tkinter.font as tkFont
+except ImportError:
+    import Tkinter, tkFont
 tk = Tkinter
 import piddle
 import string
@@ -463,8 +466,4 @@ try :
 
 except ImportError:
     TKCanvasPIL = BaseTKCanvas
-
-
-
-
 
