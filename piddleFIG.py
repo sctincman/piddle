@@ -375,22 +375,22 @@ class FIGCanvas(Canvas):
             file = self.name
             if not file.endswith(".fig"):
                 file = file+".fig"
-        f = open(file, "w")
-        header = self.header_fmt % {
-            "orientation": self.Portrait,
-            "justification": self.CenterJust,
-            # units only affects the rules displayed in xfig, not the internal
-            # units used in the file format
-            "units": self.Metric,
-            "papersize": self.A4,
-            "magnification": 100,
-            "multiple-page": self.SinglePage,
-            "transparent-color": self.BackgroundTransp
-            }
-        f.write(header)
-        for line in self.color_code+self.code:
-            f.write(line)
-            f.write("\n")
+        with open(file, "w") as f:
+            header = self.header_fmt % {
+                "orientation": self.Portrait,
+                "justification": self.CenterJust,
+                # units only affects the rules displayed in xfig, not the internal
+                # units used in the file format
+                "units": self.Metric,
+                "papersize": self.A4,
+                "magnification": 100,
+                "multiple-page": self.SinglePage,
+                "transparent-color": self.BackgroundTransp
+                }
+            f.write(header)
+            for line in self.color_code+self.code:
+                f.write(line)
+                f.write("\n")
 
     def drawLine(self, x1, y1, x2, y2, color=None, width=None):
         """
