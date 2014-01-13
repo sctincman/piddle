@@ -43,12 +43,11 @@ else:
 
 # load font metrics
 try:
-    f = open(os.path.join(_fontprefix,'metrics.dat'), 'rb')
     import cPickle
-    _widthmaps = cPickle.load(f)
-    _ascents = cPickle.load(f)
-    _descents = cPickle.load(f)
-    f.close()
+    with open(os.path.join(_fontprefix,'metrics.dat'), 'rb') as f:
+        _widthmaps = cPickle.load(f)
+        _ascents   = cPickle.load(f)
+        _descents  = cPickle.load(f)
 except:
     Log.write("Warning: unable to load font metrics!\n")
     _widthmaps = {}
