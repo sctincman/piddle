@@ -48,9 +48,8 @@ def cacheImageFile(filename):
 
     #save it to a file
     cachedname = os.path.splitext(filename)[0] + '.a85'
-    f = open(cachedname,'wb')
-    f.write(string.join(code, LINEEND)+LINEEND)
-    f.close()
+    with open(cachedname,'wb') as f:
+        f.write(string.join(code, LINEEND)+LINEEND)
     print('cached image as %s' % cachedname)
 
 
