@@ -251,10 +251,8 @@ class SVGCanvas( Canvas ):
         filename = self.name + '.' + type
       else:
         filename = self.name
-    outFile = open(filename,'w+')
-    outFile.write(self._txt+'</svg>')
-    outFile.close()
-    #print(filename, "saved")
+    with open(filename,'w+') as outFile:
+        outFile.write(self._txt+'</svg>')
 
 
   #------------- drawing methods --------------
