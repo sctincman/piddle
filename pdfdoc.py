@@ -168,9 +168,8 @@ class PDFDocument(object):
         f.write(str(self.startxref)  + LINEEND)
 
     def SaveToFile(self, filename):
-        fileobj = open(filename, 'wb')
-        self.SaveToFileObject(fileobj)
-        fileobj.close()
+        with open(filename, 'wb') as f:
+            self.SaveToFileObject(f)
 
     def SaveToFileObject(self, fileobj):
         """Open a file, and ask each object in turn to write itself to
