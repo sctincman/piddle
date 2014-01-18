@@ -481,9 +481,7 @@ class Canvas(object):
     def getAvailableFonts(self):
         """Returns the list of PostScript font names available.
         Standard set now, but may grow in future with font embedding."""
-        fontnames = self._doc.getAvailableFonts()
-        fontnames.sort()
-        return fontnames
+        return sorted(self._doc.getAvailableFonts())
 
     def setFont(self, psfontname, size, leading = None):
         """Sets the font.  If leading not specified, defaults to 1.2 x
