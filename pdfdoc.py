@@ -247,9 +247,7 @@ class PDFDocument(object):
             raise PDFError("Font %s not available in document" % psfontname)
 
     def getAvailableFonts(self):
-        fontnames = self.fontMapping.keys()
-        fontnames.sort()
-        return fontnames
+        return sorted(self.fontMapping.keys())
 
 
 
