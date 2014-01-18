@@ -11,9 +11,8 @@ import math
 from . import pagesizes
 from .piddle import *
 
-backends = ['piddlePDF','piddlePIL','piddleVCR','piddleTK',
-            'piddlePS','piddleAI','piddleQD','piddleGL', 'piddleWX']
-backends.sort()
+backends = sorted(['piddlePDF', 'piddlePIL', 'piddleVCR', 'piddleTK',
+                   'piddlePS', 'piddleAI', 'piddleQD', 'piddleGL', 'piddleWX'])
 
 #----------------------------------------------------------------------
 # note, these tests do not flush() the canvas
