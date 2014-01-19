@@ -749,9 +749,7 @@ def getFileObject(file):
     or a potential file object and assures that a valid fileobj is returned"""
 
     if file:
-        if sys.version_info[0] > 2:
-            unicode = str
-        if myisstr(file) or isinstance(file, unicode):
+        if myisstring(file):
             fileobj = open(file, "wb")
         else:
             if hasattr(file, "write"):
